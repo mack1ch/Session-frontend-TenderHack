@@ -1,0 +1,19 @@
+.tabItem {
+  display: flex;
+  border: none;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 24px;
+  background-color: #f5f5f5;
+  transition: all 0.2s;
+  border-radius: 10000px;
+  &:hover {
+    cursor: pointer;
+    filter: brightness(95%);
+    color: #333;
+  }
+  &:active {
+    filter: brightness(90%);
+  }
+}

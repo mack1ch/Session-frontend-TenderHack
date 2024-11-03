@@ -1,0 +1,95 @@
+.sessionCard {
+  display: flex;
+  width: 100%;
+  min-width: 300px;
+  background-color: #fff;
+  border-radius: 8px;
+  .divider {
+    background-color: #db2b21;
+    height: 100%;
+    width: 4px;
+  }
+  .content {
+    display: flex;
+    padding: 24px 32px;
+    width: 100%;
+    gap: 16px;
+    .left {
+      display: flex;
+      align-items: flex-start;
+      flex-direction: column;
+      width: 70%;
+      gap: 16px;
+      .header {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        gap: 8px;
+        margin-left: -16px;
+        .circle {
+          width: 10px;
+          height: 10px;
+          border-radius: 50%;
+          background-color: #db2b21;
+        }
+        .id {
+          font-size: 16px;
+          font-weight: 500;
+        }
+        .errorTags {
+          display: flex;
+          align-items: center;
+          gap: 4px;
+        }
+      }
+      .main {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        .sessionName {
+          color: #1874cf;
+          transition: all 0.2s;
+
+          &:hover {
+            color: #2291ff;
+            text-decoration: underline;
+          }
+        }
+      }
+      .footer {
+        display: flex;
+        .businessName {
+          font-size: 14px;
+          color: #757575;
+        }
+      }
+    }
+    .right {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      flex-direction: column;
+
+      width: 30%;
+      .typeOfSession {
+        font-size: 14px;
+        color: #757575;
+      }
+      .dataOfTheSessionEnd {
+        font-size: 14px;
+        color: #757575;
+      }
+      .region {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        font-size: 14px;
+        color: #757575;
+      }
+      .cost {
+        font-size: 20px;
+        font-weight: 500;
+      }
+    }
+  }
+}

@@ -1,0 +1,21 @@
+.filtersLayout {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  padding: 16px;
+  background-color: #fff;
+  width: 25%;
+  border-radius: 12px;
+  gap: 24px;
+  .h2 {
+    font-size: 24px;
+    font-weight: 600;
+  }
+  .filters {
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 8px;
+    user-select: none;
+  }
+}

@@ -1,0 +1,21 @@
+.searchTabLayout {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  width: 70%;
+  gap: 24px;
+  .h1 {
+    font-size: 28px;
+    font-style: normal;
+    font-weight: 600;
+  }
+  .tags {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .preview {
+    display: flex;
+    width: 100%;
+  }
+}
