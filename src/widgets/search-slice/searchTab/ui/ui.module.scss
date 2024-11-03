@@ -4,6 +4,7 @@
   flex-direction: column;
   width: 70%;
   gap: 24px;
+
   .h1 {
     font-size: 28px;
     font-style: normal;
@@ -17,5 +18,15 @@
   .preview {
     display: flex;
     width: 100%;
+  }
+  .cardWrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: 100%;
+    height: auto;
+    gap: 12px;
+    margin-bottom: 16px;
   }
 }

@@ -8,6 +8,7 @@ export interface IAuction {
   customers: ICustomer[];
   regionName: string;
   regionPath: string;
+  federalLawName: string;
 }
 
 export interface ICustomer {

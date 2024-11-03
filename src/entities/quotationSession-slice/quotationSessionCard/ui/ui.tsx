@@ -1,6 +1,6 @@
 import Link from "next/link";
 import styles from "./ui.module.scss";
-import { Tag } from "antd";
+import { Button, Tag } from "antd";
 import { EnvironmentOutlined } from "@ant-design/icons";
 import { IAuction } from "@/shared/interface/auction";
 
@@ -32,14 +32,15 @@ export const QuotationSessionCard = ({ auction }: { auction: IAuction }) => {
             </div>
           </div>
           <div className={styles.right}>
-            <p className={styles.typeOfSession}>44-ФЗ</p>
-            <h5 className={styles.cost}>₽35.795</h5>
-            <p className={styles.dataOfTheSessionEnd}>
-              Окончание приема заявок: 28.04.2022 в 15:12
-            </p>
+            <Button type="primary" size="middle">
+              Отменить
+            </Button>
+            <Button size="middle">Номинант на отмену</Button>
+
+            <p className={styles.typeOfSession}>{auction.federalLawName}</p>
             <p className={styles.region}>
               <EnvironmentOutlined style={{ color: "#757575" }} />
-              77. г. Москва
+              {auction.regionName}
             </p>
           </div>
         </div>

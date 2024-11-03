@@ -16,7 +16,10 @@ export const SearchTab = () => {
     data: fetchAuctions,
     error,
     isLoading,
-  } = useSWR<IFetchAuctions>(`/auctions/?take=${currentPage}`, fetcher);
+  } = useSWR<IFetchAuctions>(
+    `/auctions/?take=${pageSize}&skip=${pageSize * (currentPage - 1)}`,
+    fetcher
+  );
   const [activeTabValue, setActiveTabValue] = useState<string>(
     DSearchTabItems[0].value
   );
@@ -52,52 +55,33 @@ export const SearchTab = () => {
           ))}
         </header>
         <div className={styles.preview}>{getContentForTab()}</div>
-        {error && (
-          <div
-            style={{
-              width: "100%",
-              height: "100vh",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
+        <div className={styles.cardWrap}>
+          {error && (
             <Result
               status="error"
               title="Ошибка на сервере"
               subTitle="Обратитесь к разработчику и поменяйте настройки"
             ></Result>
-          </div>
-        )}
-        {isLoading && (
-          <div
-            style={{
-              width: "100%",
-              height: "100vh",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <Spin size="large" />
-          </div>
-        )}
+          )}
+          {isLoading && <Spin size="large" />}
 
-        {fetchAuctions?.items?.map((fetchAuction) => (
-          <QuotationSessionCard
-            auction={fetchAuction}
-            key={fetchAuction.number}
-          />
-        ))}
-        {fetchAuctions && fetchAuctions.count > 0 && (
-          <Pagination
-            current={currentPage}
-            pageSize={pageSize}
-            total={fetchAuctions?.count || 0}
-            onChange={onPageChange}
-            showSizeChanger
-          />
-        )}
+          {fetchAuctions?.items?.map((fetchAuction) => (
+            <QuotationSessionCard
+              auction={fetchAuction}
+              key={fetchAuction.number}
+            />
+          ))}
+          {fetchAuctions && fetchAuctions.count > 0 && (
+            <Pagination
+              style={{ marginTop: "16px" }}
+              current={currentPage}
+              pageSize={pageSize}
+              total={fetchAuctions?.count || 0}
+              onChange={onPageChange}
+              showSizeChanger
+            />
+          )}
+        </div>
       </section>
     </>
   );
