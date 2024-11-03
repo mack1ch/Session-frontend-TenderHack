@@ -2,8 +2,9 @@ import Link from "next/link";
 import styles from "./ui.module.scss";
 import { Tag } from "antd";
 import { EnvironmentOutlined } from "@ant-design/icons";
+import { IAuction } from "@/shared/interface/auction";
 
-export const QuotationSessionCard = () => {
+export const QuotationSessionCard = ({ auction }: { auction: IAuction }) => {
   return (
     <>
       <article className={styles.sessionCard}>
@@ -12,21 +13,22 @@ export const QuotationSessionCard = () => {
           <div className={styles.left}>
             <div className={styles.header}>
               <span className={styles.circle} />
-              <p className={styles.id}>17ada75f</p>
+              <p className={styles.id}>{auction.number}</p>
               <div className={styles.errorTags}>
                 <Tag color="magenta">дублирующая</Tag>
               </div>
             </div>
             <div className={styles.main}>
               <Link className={styles.sessionName} href="/">
-                Грунтовка Бетон-Контакт 20 кг
+                {auction.name}
               </Link>
             </div>
             <div className={styles.footer}>
-              <p className={styles.businessName}>
-                ГОСУДАРСТВЕННОЕ БЮДЖЕТНОЕ УЧРЕЖДЕНИЕ ГОРОДА МОСКВЫ ЖИЛИЩНИК
-                РАЙОНА ПРЕОБРАЖЕНСКОЕ
-              </p>
+              {auction.customers.map((customer) => (
+                <p key={customer.id} className={styles.businessName}>
+                  {customer.name}
+                </p>
+              ))}
             </div>
           </div>
           <div className={styles.right}>

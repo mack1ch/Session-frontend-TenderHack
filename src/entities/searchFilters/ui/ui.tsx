@@ -9,25 +9,23 @@ export const SearchFilters = () => {
   return (
     <>
       <div className={styles.wrap}>
-        {DSearchFiltersDropDown.map((filterDropDown) => (
-          <>
-            <Dropdown
-              key={filterDropDown.title}
-              menu={{
-                multiple: filterDropDown.isMultiply,
-                items: filterDropDown.items,
-                selectable: true,
-              }}
-              trigger={["click"]}
-            >
-              <Button size="middle">
-                <Space>
-                  {filterDropDown.title}
-                  <DownOutlined />
-                </Space>
-              </Button>
-            </Dropdown>
-          </>
+        {DSearchFiltersDropDown.map((filterDropDown, index) => (
+          <Dropdown
+            key={index}
+            menu={{
+              multiple: filterDropDown.isMultiply,
+              items: filterDropDown.items,
+              selectable: true,
+            }}
+            trigger={["click"]}
+          >
+            <Button key={index} size="middle">
+              <Space>
+                {filterDropDown.title}
+                <DownOutlined />
+              </Space>
+            </Button>
+          </Dropdown>
         ))}
       </div>
     </>
