@@ -47,7 +47,7 @@ export const QuotationSessionCard = ({ auction }: { auction: IAuction }) => {
               <EnvironmentOutlined style={{ color: "#757575" }} />
               {auction.regionName},{" "}
               {auction.beginDate?.split(" ")[0] ??
-                `от + auction.beginDate?.split(" ")[0]`}
+                `от ${auction.beginDate?.split(" ")[0]}`}
             </p>
           </div>
         </div>
