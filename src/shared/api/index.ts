@@ -1,6 +1,6 @@
 import axios, { AxiosError } from "axios";
 
-const BASE_URL = "http://147.45.253.71:8000";
+const BASE_URL = "https://тендерхак.екат.рус";
 
 export const fetcher = (url: string) =>
   axios(BASE_URL + url, {

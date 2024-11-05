@@ -19,7 +19,10 @@ export const QuotationSessionCard = ({ auction }: { auction: IAuction }) => {
               </div>
             </div>
             <div className={styles.main}>
-              <Link className={styles.sessionName} href="/">
+              <Link
+                className={styles.sessionName}
+                href={`/session/${auction.number}`}
+              >
                 {auction.name}
               </Link>
             </div>

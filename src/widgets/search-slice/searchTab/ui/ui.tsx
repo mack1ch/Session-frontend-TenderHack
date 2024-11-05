@@ -7,17 +7,21 @@ import useSWR from "swr";
 import { fetcher } from "@/shared/api";
 import { IFetchAuctions } from "../interface";
 import { Pagination, Result, Spin } from "antd";
+import { useAppSelector } from "@/shared/redux/hooks";
 
 export const SearchTab = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
+  const searchValue = useAppSelector((state) => state.search.query);
 
   const {
     data: fetchAuctions,
     error,
     isLoading,
   } = useSWR<IFetchAuctions>(
-    `/auctions/?take=${pageSize}&skip=${pageSize * (currentPage - 1)}`,
+    `/auctions/?take=${pageSize}&skip=${
+      pageSize * (currentPage - 1)
+    }&search=${searchValue.toString()}`,
     fetcher
   );
   const [activeTabValue, setActiveTabValue] = useState<string>(
@@ -35,7 +39,7 @@ export const SearchTab = () => {
     setCurrentPage(page);
     if (pageSize) setPageSize(pageSize);
   };
-  console.log(error);
+
   return (
     <>
       <section className={styles.searchTabLayout}>
@@ -63,7 +67,19 @@ export const SearchTab = () => {
               subTitle="Обратитесь к разработчику и поменяйте настройки"
             ></Result>
           )}
-          {isLoading && <Spin size="large" />}
+          {isLoading && (
+            <div
+              style={{
+                width: "100%",
+                height: "100%",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <Spin size="large" />
+            </div>
+          )}
 
           {fetchAuctions?.items?.map((fetchAuction) => (
             <QuotationSessionCard

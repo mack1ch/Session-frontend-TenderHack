@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 import "./globals.scss";
 import { AntdRegistry } from "@ant-design/nextjs-registry";
 import { ThemeLayout } from "@/shared/layout/themeLayout";
+import StoreProvider from "./ StoreProvider";
 
 const RF_Dewi = localFont({
   src: [
@@ -38,7 +39,9 @@ export default function RootLayout({
     <html lang="ru">
       <body className={`${RF_Dewi.className}`}>
         <AntdRegistry>
-          <ThemeLayout>{children}</ThemeLayout>
+          <ThemeLayout>
+            <StoreProvider>{children}</StoreProvider>
+          </ThemeLayout>
         </AntdRegistry>
       </body>
     </html>
