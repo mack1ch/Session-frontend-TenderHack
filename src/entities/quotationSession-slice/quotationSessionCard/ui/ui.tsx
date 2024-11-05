@@ -37,15 +37,15 @@ export const QuotationSessionCard = ({ auction }: { auction: IAuction }) => {
             </div>
           </div>
           <div className={styles.right}>
-            <Button type="primary" size="middle">
-              Отменить
-            </Button>
-            <Button size="middle">Номинант на отмену</Button>
-
-            <p className={styles.typeOfSession}>{auction.federalLawName}</p>
-            <p className={styles.region}>
+            <div className={styles.row}>
+              <Button type="primary" size="middle">
+                Отменить
+              </Button>
+              <Button size="middle">Отменить позже</Button>
+            </div>
+            <p className={styles.regionAndDate}>
               <EnvironmentOutlined style={{ color: "#757575" }} />
-              {auction.regionName}
+              {auction.regionName}, {auction.beginDate.split(" ")[0]}
             </p>
           </div>
         </div>

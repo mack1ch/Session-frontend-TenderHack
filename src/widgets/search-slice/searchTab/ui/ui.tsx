@@ -23,7 +23,7 @@ export const SearchTab = () => {
   } = useSWR<IFetchAuctions>(
     `/auctions/?take=${pageSize}&skip=${
       pageSize * (currentPage - 1)
-    }&search=${searchValue.toString()}&regions=${searchFilterRegions?.join(
+    }&search=${searchValue.toString()}&region_paths=${searchFilterRegions?.join(
       ","
     )}`,
     fetcher

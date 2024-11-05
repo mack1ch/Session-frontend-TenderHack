@@ -9,6 +9,7 @@ export interface IAuction {
   regionName: string;
   regionPath: string;
   federalLawName: string;
+  beginDate: string;
 }
 
 export interface ICustomer {

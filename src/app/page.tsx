@@ -7,7 +7,7 @@ import { SearchTab } from "@/widgets/search-slice/searchTab";
 export default function Home() {
   return (
     <>
-      <AppLayout style={{ gap: "48px" }}>
+      <AppLayout style={{ gap: "48px", justifyContent: "space-between" }}>
         <SessionsUnPublishFilters />
         <SearchTab />
       </AppLayout>
