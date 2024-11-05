@@ -7,9 +7,11 @@ import useSWR from "swr";
 import { fetcher } from "@/shared/api";
 import { IFetchAuctions } from "../interface";
 import { Pagination, Result, Spin } from "antd";
-import { useAppSelector } from "@/shared/redux/hooks";
+import { useAppDispatch, useAppSelector } from "@/shared/redux/hooks";
+import { setSessionsArray } from "@/shared/redux/features/sessions";
 
 export const SearchTab = () => {
+  const dispatch = useAppDispatch();
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
   const searchValue = useAppSelector((state) => state.search.query);
@@ -24,6 +26,8 @@ export const SearchTab = () => {
     }&search=${searchValue.toString()}`,
     fetcher
   );
+  dispatch(setSessionsArray(fetchAuctions?.items || []));
+
   const [activeTabValue, setActiveTabValue] = useState<string>(
     DSearchTabItems[0].value
   );

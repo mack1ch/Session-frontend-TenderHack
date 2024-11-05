@@ -1,27 +1,55 @@
 "use client";
 
-import { AutoComplete, ConfigProvider, Input } from "antd";
+import { AutoComplete, AutoCompleteProps, ConfigProvider, Input } from "antd";
 import { searchInputThemeContext } from "../theme";
 import { SearchFilters } from "@/entities/searchFilters";
 import styles from "./ui.module.scss";
 import { SearchOutlined } from "@ant-design/icons";
-import { useAppDispatch } from "@/shared/redux/hooks";
-import { useState } from "react";
+import { useAppDispatch, useAppSelector } from "@/shared/redux/hooks";
+import { useCallback, useEffect, useState } from "react";
 import { setSearchQuery } from "@/shared/redux/features/search";
 import { SearchProps } from "antd/es/input";
 
 export const SearchInput = () => {
   const dispatch = useAppDispatch();
-  const [inputValue, setInputValue] = useState<string>();
+  const sessionsArray = useAppSelector((state) => state.session.sessions);
+  const [autoCompleteSessionsOptions, setAutoCompleteSessionsOptions] =
+    useState<AutoCompleteProps["options"]>([]);
+  const [inputValue, setInputValue] = useState<string>("");
+
+  const handleSearch = useCallback(
+    (value: string) => {
+      const filteredOptions = sessionsArray
+        .filter((session) =>
+          session.name?.toLowerCase().includes(value.toLowerCase())
+        )
+        .map((session) => ({ value: session.name, label: session.name }));
+
+      setAutoCompleteSessionsOptions(filteredOptions);
+    },
+    [sessionsArray]
+  );
 
   const onSelect = (value: string) => {
-    console.log("onSelect", value);
-  };
-  const onSearch: SearchProps["onSearch"] = (value) =>
     dispatch(setSearchQuery(value));
-  // const handleSearch = (value: string) => {
-  // setOptions(value ? searchResult(value) : []);
-  // };
+    setInputValue(value);
+  };
+
+  const onSearch: SearchProps["onSearch"] = (value) => {
+    handleSearch(value);
+    dispatch(setSearchQuery(value));
+  };
+
+  const onClear = () => {
+    dispatch(setSearchQuery(""));
+    setAutoCompleteSessionsOptions([]);
+  };
+
+  useEffect(() => {
+    if (inputValue.length === 0) {
+      setAutoCompleteSessionsOptions([]);
+    }
+  }, [inputValue]);
 
   return (
     <>
@@ -29,12 +57,14 @@ export const SearchInput = () => {
         <div className={styles.searchInputWrap}>
           <AutoComplete
             style={{ width: "100%", marginBottom: "8px" }}
-            // options={options}
-            onSelect={onSelect}
-            // onSearch={handleSearch}
+            options={autoCompleteSessionsOptions}
+            onSearch={handleSearch}
             size="large"
+            onSelect={onSelect}
           >
             <Input.Search
+              allowClear
+              onClear={onClear}
               value={inputValue}
               onSearch={onSearch}
               onChange={(e) => setInputValue(e.target.value)}
