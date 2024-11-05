@@ -15,6 +15,7 @@ const searchSlice = createSlice({
     setSearchQuery: (state, action: PayloadAction<string>) => {
       state.query = action.payload;
     },
+
     clearSearchQuery: (state) => {
       state.query = "";
     },

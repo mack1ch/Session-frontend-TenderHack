@@ -15,7 +15,7 @@ export const SearchTab = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
   const searchValue = useAppSelector((state) => state.search.query);
-
+  const searchFilterRegions = useAppSelector((state) => state.filter.regions);
   const {
     data: fetchAuctions,
     error,
@@ -23,7 +23,9 @@ export const SearchTab = () => {
   } = useSWR<IFetchAuctions>(
     `/auctions/?take=${pageSize}&skip=${
       pageSize * (currentPage - 1)
-    }&search=${searchValue.toString()}`,
+    }&search=${searchValue.toString()}&regions=${searchFilterRegions?.join(
+      ","
+    )}`,
     fetcher
   );
   dispatch(setSessionsArray(fetchAuctions?.items || []));

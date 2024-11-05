@@ -19,3 +19,8 @@ export interface ICustomer {
   customerId: number;
   id: number;
 }
+
+export interface IRegion {
+  id: string;
+  name: string;
+}

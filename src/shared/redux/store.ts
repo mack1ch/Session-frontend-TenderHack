@@ -1,12 +1,14 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { searchReducer } from "./features/search";
 import { sessionReducer } from "./features/sessions";
+import { searchFilterRegionReducer } from "./features/filter";
 
 export const makeStore = () => {
   return configureStore({
     reducer: {
       search: searchReducer,
-      session: sessionReducer
+      session: sessionReducer,
+      filter: searchFilterRegionReducer,
     },
   });
 };
