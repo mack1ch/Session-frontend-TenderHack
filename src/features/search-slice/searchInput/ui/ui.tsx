@@ -48,6 +48,7 @@ export const SearchInput = () => {
   useEffect(() => {
     if (inputValue.length === 0) {
       setAutoCompleteSessionsOptions([]);
+      dispatch(setSearchQuery(""));
     }
   }, [inputValue]);
 
