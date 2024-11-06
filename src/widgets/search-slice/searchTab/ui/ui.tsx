@@ -6,7 +6,7 @@ import { QuotationSessionCard } from "@/entities/quotationSession-slice/quotatio
 import useSWR from "swr";
 import { fetcher } from "@/shared/api";
 import { IFetchAuctions } from "../interface";
-import { Pagination, Result, Spin } from "antd";
+import { Empty, Pagination, Result, Spin } from "antd";
 import { useAppDispatch, useAppSelector } from "@/shared/redux/hooks";
 import { setSessionsArray } from "@/shared/redux/features/sessions";
 
@@ -161,7 +161,7 @@ export const SearchTab = () => {
             />
           ))}
 
-          {fetchAuctions && fetchAuctions.count > 0 && (
+          {fetchAuctions && fetchAuctions.count > 0 ? (
             <Pagination
               style={{ marginTop: "16px" }}
               current={currentPage}
@@ -170,6 +170,21 @@ export const SearchTab = () => {
               onChange={onPageChange}
               showSizeChanger
             />
+          ) : (
+            fetchAuctions &&
+            fetchAuctions.count === 0 && (
+              <div
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  display: "flex",
+                  alignItems: "flex-end",
+                  justifyContent: "center",
+                }}
+              >
+                <Empty />
+              </div>
+            )
           )}
         </div>
       </section>

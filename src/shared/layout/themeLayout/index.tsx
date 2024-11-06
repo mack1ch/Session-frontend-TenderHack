@@ -1,4 +1,5 @@
 import { ConfigProvider, ThemeConfig } from "antd";
+import ruRU from "antd/locale/ru_RU";
 
 export const ThemeLayout = ({
   children,
@@ -7,7 +8,9 @@ export const ThemeLayout = ({
 }>) => {
   return (
     <>
-      <ConfigProvider theme={themeContext}>{children}</ConfigProvider>
+      <ConfigProvider locale={ruRU} theme={themeContext}>
+        {children}
+      </ConfigProvider>
     </>
   );
 };
