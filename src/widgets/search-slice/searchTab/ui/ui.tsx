@@ -63,7 +63,7 @@ export const SearchTab = () => {
     `/auctions/?${new URLSearchParams(queryParams).toString()}`,
     fetcher,
     {
-      onSuccess: (data) => {
+      onSuccess: () => {
         const endTime = performance.now(); // Получаем время окончания запроса
         setFetchDuration((endTime - startTime) / 1000); // Вычисляем время в секундах
       },
