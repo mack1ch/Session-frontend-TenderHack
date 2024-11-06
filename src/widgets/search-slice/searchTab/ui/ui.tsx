@@ -29,6 +29,9 @@ export const SearchTab = () => {
   const isElectronicContractExecutionRequired = useAppSelector(
     (state) => state.filter.isElectronicContractExecutionRequired
   );
+
+  const [fetchDuration, setFetchDuration] = useState<number | null>(null); // Состояние для времени
+
   const queryParams = useMemo(
     () => ({
       take: String(pageSize),
@@ -58,8 +61,17 @@ export const SearchTab = () => {
     isLoading,
   } = useSWR<IFetchAuctions>(
     `/auctions/?${new URLSearchParams(queryParams).toString()}`,
-    fetcher
+    fetcher,
+    {
+      onSuccess: (data) => {
+        const endTime = performance.now(); // Получаем время окончания запроса
+        setFetchDuration((endTime - startTime) / 1000); // Вычисляем время в секундах
+      },
+    }
   );
+
+  const startTime = performance.now(); // Время начала запроса
+
   useEffect(() => {
     if (fetchAuctions?.items) {
       dispatch(setSessionsArray(fetchAuctions.items));
@@ -101,6 +113,18 @@ export const SearchTab = () => {
           ))}
         </header>
         <div className={styles.preview}>{getContentForTab()}</div>
+        {fetchAuctions && fetchAuctions?.count > 0 && (
+          <span
+            className={styles.statsLabel}
+            style={{
+              width: "100%",
+              display: "flex",
+            }}
+          >
+            Найдено {fetchAuctions?.count.toLocaleString("ru-RU")} за{" "}
+            {fetchDuration ? fetchDuration.toFixed(2) : "0.00"} сек.
+          </span>
+        )}
         <div className={styles.cardWrap}>
           {error && (
             <Result
