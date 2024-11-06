@@ -64,6 +64,9 @@ export const SearchTab = () => {
   );
 
   useEffect(() => {
+    setStartTime(null);
+    setLoadingTime(null);
+
     if (isLoading) {
       setStartTime(performance.now());
       setLoadingTime(null);
