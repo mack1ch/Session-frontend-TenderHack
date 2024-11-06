@@ -3,7 +3,7 @@ import { MenuProps } from "antd";
 export const DTimeOfSessionContinue: MenuProps["items"] = [
   {
     label: "Все",
-    key: "3,6,24",
+    key: "",
   },
   {
     label: "3 часа",
