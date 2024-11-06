@@ -1,7 +1,7 @@
 import styles from "./ui.module.scss";
 import { TabItem } from "../tabItem";
 import { DSearchTabItems } from "../data";
-import { useState } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { QuotationSessionCard } from "@/entities/quotationSession-slice/quotationSessionCard";
 import useSWR from "swr";
 import { fetcher } from "@/shared/api";
@@ -9,12 +9,13 @@ import { IFetchAuctions } from "../interface";
 import { Pagination, Result, Spin } from "antd";
 import { useAppDispatch, useAppSelector } from "@/shared/redux/hooks";
 import { setSessionsArray } from "@/shared/redux/features/sessions";
-import { useMemo, useEffect } from "react";
 
 export const SearchTab = () => {
   const dispatch = useAppDispatch();
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
+  const [loadingTime, setLoadingTime] = useState<number | null>(null); // State for tracking loading time
+  const [startTime, setStartTime] = useState<number | null>(null); // Time tracking start time for new request
   const searchValue = useAppSelector((state) => state.search.query);
   const searchFilterRegions = useAppSelector((state) => state.filter.regions);
   const initialDuration = useAppSelector(
@@ -29,8 +30,6 @@ export const SearchTab = () => {
   const isElectronicContractExecutionRequired = useAppSelector(
     (state) => state.filter.isElectronicContractExecutionRequired
   );
-
-  const [fetchDuration, setFetchDuration] = useState<number | null>(null); // Состояние для времени
 
   const queryParams = useMemo(
     () => ({
@@ -61,22 +60,25 @@ export const SearchTab = () => {
     isLoading,
   } = useSWR<IFetchAuctions>(
     `/auctions/?${new URLSearchParams(queryParams).toString()}`,
-    fetcher,
-    {
-      onSuccess: () => {
-        const endTime = performance.now(); // Получаем время окончания запроса
-        setFetchDuration((endTime - startTime) / 1000); // Вычисляем время в секундах
-      },
-    }
+    fetcher
   );
 
-  const startTime = performance.now(); // Время начала запроса
+  useEffect(() => {
+    if (isLoading) {
+      setStartTime(performance.now());
+      setLoadingTime(null);
+    }
+  }, [isLoading]);
 
   useEffect(() => {
     if (fetchAuctions?.items) {
       dispatch(setSessionsArray(fetchAuctions.items));
+      if (startTime) {
+        const endTime = performance.now();
+        setLoadingTime((endTime - startTime) / 1000);
+      }
     }
-  }, [fetchAuctions, dispatch]);
+  }, [fetchAuctions, dispatch, startTime]);
 
   const [activeTabValue, setActiveTabValue] = useState<string>(
     DSearchTabItems[0].value
@@ -122,7 +124,9 @@ export const SearchTab = () => {
             }}
           >
             Найдено {fetchAuctions?.count.toLocaleString("ru-RU")} за{" "}
-            {fetchDuration ? fetchDuration.toFixed(2) : "0.00"} сек.
+            {loadingTime !== null
+              ? `${loadingTime.toFixed(2)} сек.`
+              : "загрузка..."}
           </span>
         )}
         <div className={styles.cardWrap}>
