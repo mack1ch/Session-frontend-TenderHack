@@ -1,4 +1,4 @@
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 
 const BASE_URL = "https://тендерхак.екат.рус";
 
@@ -10,4 +10,9 @@ export const fetcher = (url: string) =>
     },
   })
     .then((res) => res.data)
-    .catch((e: AxiosError) => e);
+    .catch((e: unknown) => {
+      if (axios.isAxiosError(e)) {
+        return e.response ? e.response.data : e.message;
+      }
+      return e;
+    });

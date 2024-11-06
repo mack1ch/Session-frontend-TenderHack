@@ -1,113 +1,167 @@
 "use client";
 
-import { Button, Dropdown, MenuProps, Space } from "antd";
+import { Button, Dropdown, MenuProps, Skeleton, Space } from "antd";
 import styles from "./ui.module.scss";
 import { DownOutlined } from "@ant-design/icons";
-import { useEffect, useState } from "react";
+import { useMemo } from "react";
 import useSWR from "swr";
 import { IRegion } from "@/shared/interface/auction";
 import { fetcher } from "@/shared/api";
 import { useAppDispatch, useAppSelector } from "@/shared/redux/hooks";
-import { setSearchFilterRegions } from "@/shared/redux/features/filter";
+import {
+  setSearchFilterRegions,
+  setSearchFilterInitialDuration,
+  setSearchFilterHasParticipants,
+  setSearchFilterContractGuaranteeRequired,
+  setSearchFilterElectronicContractExecutionRequired,
+} from "@/shared/redux/features/filter";
+import { DThreeVariants, DTimeOfSessionContinue } from "../data";
 
 export const SearchFilters = () => {
   const dispatch = useAppDispatch();
   const searchFilterRegions = useAppSelector((state) => state.filter.regions);
-  const { data: regions } = useSWR<IRegion[]>(`/auctions/regions/`, fetcher);
-  const [regionsOptions, setRegionsOptions] = useState<MenuProps["items"]>();
+  const { data: regions, isLoading } = useSWR<IRegion[]>(
+    `/auctions/regions/`,
+    fetcher
+  );
 
-  useEffect(() => {
+  const regionsOptionsMemo: MenuProps["items"] = useMemo(() => {
     if (regions && Array.isArray(regions)) {
-      const cityOptions = regions
-        .filter((region) => region.name.startsWith("г."))
-        .map((region) => ({
-          key: region.id,
-          label: region.name,
-          type: "item" as const,
-        }));
-
-      const oblastOptions = regions
-        .filter((region) => region.name.startsWith("обл."))
-        .map((region) => ({
-          key: region.id,
-          label: region.name,
-          type: "item" as const,
-        }));
-
-      const kraiOptions = regions
-        .filter((region) => region.name.startsWith("край"))
-        .map((region) => ({
-          key: region.id,
-          label: region.name,
-          type: "item" as const,
-        }));
-
-      const republicOptions = regions
-        .filter((region) => region.name.startsWith("Респ."))
-        .map((region) => ({
-          key: region.id,
-          label: region.name,
-          type: "item" as const,
-        }));
-
-      const otherOptions = regions
-        .filter(
-          (region) =>
-            !region.name.startsWith("г.") &&
-            !region.name.startsWith("обл.") &&
-            !region.name.startsWith("край") &&
-            !region.name.startsWith("Респ.")
-        )
-        .map((region) => ({
-          key: region.id,
-          label: region.name,
-          type: "item" as const,
-        }));
-
-      setRegionsOptions([
-        ...cityOptions,
-        { type: "divider" as const },
-        ...oblastOptions,
-        { type: "divider" as const },
-        ...kraiOptions,
-        { type: "divider" as const },
-        ...republicOptions,
-        { type: "divider" as const },
-        ...otherOptions,
-      ]);
+      return regions.map((region) => ({
+        label: region.name,
+        key: region.id,
+      }));
     }
+
+    return [];
   }, [regions]);
 
   const handleDropDownRegionClick: MenuProps["onClick"] = (e) => {
     const regionKey = e.key;
-    const updatedRegions = (searchFilterRegions ?? []).includes(regionKey)
-      ? (searchFilterRegions ?? []).filter((key) => key !== regionKey)
-      : [...(searchFilterRegions ?? []), regionKey];
+    const currentRegions = searchFilterRegions ?? [];
+
+    const updatedRegions = currentRegions.includes(regionKey)
+      ? currentRegions.filter((key) => key !== regionKey)
+      : [...currentRegions, regionKey];
 
     dispatch(setSearchFilterRegions(updatedRegions));
   };
 
+  const handleDropDownInitialDurationClick: MenuProps["onClick"] = (e) => {
+    dispatch(setSearchFilterInitialDuration(e.key));
+  };
+
+  const handleDropDownHasParticipantsClick: MenuProps["onClick"] = (e) => {
+    dispatch(setSearchFilterHasParticipants(e.key));
+  };
+
+  const handleDropDownContractGuaranteeRequiredClick: MenuProps["onClick"] = (
+    e
+  ) => {
+    dispatch(setSearchFilterContractGuaranteeRequired(e.key));
+  };
+
+  const handleDropDownElectronicContractExecutionRequiredClick: MenuProps["onClick"] =
+    (e) => {
+      dispatch(setSearchFilterElectronicContractExecutionRequired(e.key));
+    };
+
   return (
-    <>
-      <div className={styles.wrap}>
-        <Dropdown
-          autoAdjustOverflow
-          menu={{
-            multiple: true,
-            items: regionsOptions,
-            selectable: true,
-            onClick: handleDropDownRegionClick,
-          }}
-          trigger={["click"]}
-        >
-          <Button size="middle">
-            <Space>
-              Регион заказчиков
-              <DownOutlined />
-            </Space>
-          </Button>
-        </Dropdown>
-      </div>
-    </>
+    <div className={styles.wrap}>
+      {isLoading ? (
+        <>
+          <Skeleton.Button active={isLoading} style={{ width: 160 }} />
+          <Skeleton.Button active={isLoading} style={{ width: 160 }} />
+          <Skeleton.Button active={isLoading} style={{ width: 160 }} />
+          <Skeleton.Button active={isLoading} style={{ width: 160 }} />
+          <Skeleton.Button active={isLoading} style={{ width: 160 }} />
+          <Skeleton.Button active={isLoading} style={{ width: 160 }} />
+        </>
+      ) : (
+        <>
+          <Dropdown
+            autoAdjustOverflow
+            menu={{
+              multiple: true,
+              items: regionsOptionsMemo,
+              selectable: true,
+              onClick: handleDropDownRegionClick,
+            }}
+            trigger={["click"]}
+          >
+            <Button size="middle">
+              <Space>
+                Регион заказчиков
+                <DownOutlined />
+              </Space>
+            </Button>
+          </Dropdown>
+          <Dropdown
+            autoAdjustOverflow
+            menu={{
+              items: DTimeOfSessionContinue,
+              selectable: true,
+              onClick: handleDropDownInitialDurationClick,
+            }}
+            trigger={["click"]}
+          >
+            <Button size="middle">
+              <Space>
+                Время проведения котировочной сессии
+                <DownOutlined />
+              </Space>
+            </Button>
+          </Dropdown>
+          <Dropdown
+            autoAdjustOverflow
+            menu={{
+              items: DThreeVariants,
+              selectable: true,
+              onClick: handleDropDownHasParticipantsClick,
+            }}
+            trigger={["click"]}
+          >
+            <Button size="middle">
+              <Space>
+                Наличие ставок
+                <DownOutlined />
+              </Space>
+            </Button>
+          </Dropdown>
+          <Dropdown
+            autoAdjustOverflow
+            menu={{
+              items: DThreeVariants,
+              selectable: true,
+              onClick: handleDropDownElectronicContractExecutionRequiredClick,
+            }}
+            trigger={["click"]}
+          >
+            <Button size="middle">
+              <Space>
+                Электронное исполнение
+                <DownOutlined />
+              </Space>
+            </Button>
+          </Dropdown>
+          <Dropdown
+            autoAdjustOverflow
+            menu={{
+              items: DThreeVariants,
+              selectable: true,
+              onClick: handleDropDownContractGuaranteeRequiredClick,
+            }}
+            trigger={["click"]}
+          >
+            <Button size="middle">
+              <Space>
+                Обеспечения контракта
+                <DownOutlined />
+              </Space>
+            </Button>
+          </Dropdown>
+        </>
+      )}
+    </div>
   );
 };

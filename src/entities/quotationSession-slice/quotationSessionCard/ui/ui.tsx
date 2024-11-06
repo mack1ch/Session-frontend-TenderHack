@@ -45,7 +45,7 @@ export const QuotationSessionCard = ({ auction }: { auction: IAuction }) => {
             </div>
             <p className={styles.regionAndDate}>
               <EnvironmentOutlined style={{ color: "#757575" }} />
-              {auction.regionName}{" "}
+              {auction.regionName}
               {auction.beginDate?.split(" ")[0]
                 ? `, от ${auction.beginDate?.split(" ")[0]}`
                 : ""}
