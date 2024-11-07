@@ -5,7 +5,6 @@ import styles from "./ui.module.scss";
 import { DownOutlined } from "@ant-design/icons";
 import { useMemo } from "react";
 import useSWR from "swr";
-
 import { fetcher } from "@/shared/api";
 import { useAppDispatch, useAppSelector } from "@/shared/redux/hooks";
 import {

@@ -61,6 +61,9 @@
         .businessName {
           font-size: 14px;
           color: #757575;
+          &::first-letter {
+            text-transform: uppercase;
+          }
         }
       }
     }
@@ -91,7 +94,6 @@
         font-size: 14px;
         color: #757575;
       }
-    
     }
   }
 }

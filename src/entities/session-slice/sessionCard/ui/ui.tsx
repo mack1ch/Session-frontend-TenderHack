@@ -31,7 +31,7 @@ export const QuotationSessionCard = ({ auction }: { auction: IAuction }) => {
             <div className={styles.footer}>
               {auction.customers.map((customer) => (
                 <p key={customer.id} className={styles.businessName}>
-                  {customer.name}
+                  {customer.name.toLowerCase()}
                 </p>
               ))}
             </div>
