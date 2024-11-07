@@ -2,7 +2,7 @@
 
 import { AutoComplete, AutoCompleteProps, ConfigProvider, Input } from "antd";
 import { searchInputThemeContext } from "../theme";
-import { SearchFilters } from "@/entities/searchFilters";
+import { SearchFilters } from "@/entities/search-slice/searchFilters";
 import styles from "./ui.module.scss";
 import { SearchOutlined } from "@ant-design/icons";
 import { useAppDispatch, useAppSelector } from "@/shared/redux/hooks";

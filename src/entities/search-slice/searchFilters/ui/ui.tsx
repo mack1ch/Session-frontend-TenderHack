@@ -5,7 +5,7 @@ import styles from "./ui.module.scss";
 import { DownOutlined } from "@ant-design/icons";
 import { useMemo } from "react";
 import useSWR from "swr";
-import { IRegion } from "@/shared/interface/auction";
+
 import { fetcher } from "@/shared/api";
 import { useAppDispatch, useAppSelector } from "@/shared/redux/hooks";
 import {
@@ -16,11 +16,12 @@ import {
   setSearchFilterElectronicContractExecutionRequired,
 } from "@/shared/redux/features/filter";
 import { DThreeVariants, DTimeOfSessionContinue } from "../data";
+import { IAuctionRegion } from "@/shared/interface/auctionById";
 
 export const SearchFilters = () => {
   const dispatch = useAppDispatch();
   const searchFilterRegions = useAppSelector((state) => state.filter.regions);
-  const { data: regions, isLoading } = useSWR<IRegion[]>(
+  const { data: regions, isLoading } = useSWR<IAuctionRegion[]>(
     `/auctions/regions/`,
     fetcher
   );

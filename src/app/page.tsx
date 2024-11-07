@@ -9,7 +9,7 @@ export default function Home() {
     <>
       <AppLayout style={{ gap: "48px", justifyContent: "space-between" }}>
         <SessionsUnPublishFilters />
-        <SearchTab />
+        <SearchTab  />
       </AppLayout>
     </>
   );

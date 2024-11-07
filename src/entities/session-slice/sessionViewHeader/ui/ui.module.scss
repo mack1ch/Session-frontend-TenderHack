@@ -1,0 +1,14 @@
+.header {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 16px;
+  .tagsWrap {
+    display: flex;
+    align-items: center;
+    gap: 0px;
+  }
+  .h1 {
+    font-size: 30px;
+  }
+}

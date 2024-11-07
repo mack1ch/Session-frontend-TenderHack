@@ -14,7 +14,7 @@ export const QuotationSessionCard = ({ auction }: { auction: IAuction }) => {
             <div className={styles.header}>
               <span className={styles.circle} />
               <p className={styles.id}>
-                {auction.number} | {auction.federalLawName}
+                {auction.auctionId} | {auction.federalLawName}
               </p>
               <div className={styles.errorTags}>
                 <Tag color="magenta">дублирующая</Tag>
@@ -23,7 +23,7 @@ export const QuotationSessionCard = ({ auction }: { auction: IAuction }) => {
             <div className={styles.main}>
               <Link
                 className={styles.sessionName}
-                href={`/session/${auction.number}`}
+                href={`/session/${auction.auctionId}`}
               >
                 {auction.name}
               </Link>

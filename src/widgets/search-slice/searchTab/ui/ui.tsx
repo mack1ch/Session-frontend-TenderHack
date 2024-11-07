@@ -2,7 +2,7 @@ import styles from "./ui.module.scss";
 import { TabItem } from "../tabItem";
 import { DSearchTabItems } from "../data";
 import { useState, useMemo, useEffect } from "react";
-import { QuotationSessionCard } from "@/entities/quotationSession-slice/quotationSessionCard";
+import { QuotationSessionCard } from "@/entities/session-slice/sessionCard";
 import useSWR from "swr";
 import { fetcher } from "@/shared/api";
 import { IFetchAuctions } from "../interface";
@@ -66,7 +66,7 @@ export const SearchTab = () => {
   useEffect(() => {
     setStartTime(null);
     setLoadingTime(null);
-
+    onPageChange(1, 10);
     if (isLoading) {
       setStartTime(performance.now());
       setLoadingTime(null);
@@ -163,6 +163,7 @@ export const SearchTab = () => {
 
           {fetchAuctions && fetchAuctions.count > 0 ? (
             <Pagination
+              hideOnSinglePage
               style={{ marginTop: "16px" }}
               current={currentPage}
               pageSize={pageSize}
