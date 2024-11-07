@@ -21,7 +21,7 @@ export const SessionAuctionView = ({
             <div className={styles.infoOfAuctionWrap}>
               <div className={styles.infoOfAuctionItem}>
                 <h2 className={styles.h2_withFirstLetterUpperCase}>
-                  {session?.customer?.name.toLowerCase()}
+                  {session?.customer?.name?.toLowerCase()}
                 </h2>
               </div>
               {session?.auctionRegion?.map((auctionRegion) => (
@@ -31,14 +31,14 @@ export const SessionAuctionView = ({
                 >
                   <span className={styles.h2__title}>Регион:</span>{" "}
                   <h2 className={styles.h2}>
-                    {auctionRegion.name.toLowerCase()}
+                    {auctionRegion?.name?.toLowerCase()}
                   </h2>
                 </div>
               ))}
               <div className={styles.infoOfAuctionItem}>
                 <span className={styles.h2__title}>Причина заключения:</span>{" "}
                 <h2 className={styles.h2}>
-                  {session?.conclusionReasonName.toLowerCase()} (
+                  {session?.conclusionReasonName?.toLowerCase()} (
                   {session?.federalLawName})
                 </h2>
               </div>
@@ -48,7 +48,7 @@ export const SessionAuctionView = ({
                 <article className={styles.itemCard} key={item.id}>
                   <div className={styles.left}>
                     <div className={styles.columnWith4Gap}>
-                      <h3 className={styles.h3}>{item?.name.toLowerCase()}</h3>
+                      <h3 className={styles.h3}>{item?.name?.toLowerCase()}</h3>
                       <p className={styles.direction}>
                         {item.productionDirectoryName}
                       </p>
@@ -62,7 +62,7 @@ export const SessionAuctionView = ({
                       })}
                     </h2>
                     <p className={styles.currentValue}>
-                      {item.currentValue} {item.okeiName}
+                      {item.currentValue} {item?.okeiName}
                     </p>
                   </div>
                 </article>

@@ -9,13 +9,18 @@ import { IFetchAuctions } from "../interface";
 import { Empty, Pagination, Result, Spin } from "antd";
 import { useAppDispatch, useAppSelector } from "@/shared/redux/hooks";
 import { setSessionsArray } from "@/shared/redux/features/sessions";
+import {
+  clearLoadingAuctionTime,
+  setLoadingAuctionTime,
+} from "@/shared/redux/features/loadingAuctionTime";
 
 export const SearchTab = () => {
   const dispatch = useAppDispatch();
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
-  const [loadingTime, setLoadingTime] = useState<number | null>(null); // State for tracking loading time
-  const [startTime, setStartTime] = useState<number | null>(null); // Time tracking start time for new request
+  // const [loadingTime, setLoadingTime] = useState<number | null>(null);
+  const loadingTime = useAppSelector((store) => store.loadingTime.time);
+  const [startTime, setStartTime] = useState<number | null>(null);
   const searchValue = useAppSelector((state) => state.search.query);
   const searchFilterRegions = useAppSelector((state) => state.filter.regions);
   const initialDuration = useAppSelector(
@@ -64,24 +69,30 @@ export const SearchTab = () => {
   );
 
   useEffect(() => {
-    setStartTime(null);
-    setLoadingTime(null);
-    onPageChange(1, 10);
-    if (isLoading) {
+    console.log(loadingTime);
+    if (isLoading && startTime === null) {
       setStartTime(performance.now());
-      setLoadingTime(null);
     }
-  }, [isLoading]);
+
+    if (!isLoading && startTime !== null) {
+      const endTime = performance.now();
+      dispatch(setLoadingAuctionTime((endTime - startTime) / 1000));
+      setStartTime(null);
+    }
+  }, [isLoading, startTime]);
 
   useEffect(() => {
     if (fetchAuctions?.items) {
       dispatch(setSessionsArray(fetchAuctions.items));
-      if (startTime) {
-        const endTime = performance.now();
-        setLoadingTime((endTime - startTime) / 1000);
-      }
     }
-  }, [fetchAuctions, dispatch, startTime]);
+  }, [fetchAuctions, dispatch]);
+
+  useEffect(() => {
+    return () => {
+      clearLoadingAuctionTime();
+      setStartTime(null);
+    };
+  }, []);
 
   const [activeTabValue, setActiveTabValue] = useState<string>(
     DSearchTabItems[0].value

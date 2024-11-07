@@ -2,6 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import { searchReducer } from "./features/search";
 import { sessionReducer } from "./features/sessions";
 import { searchFilterRegionReducer } from "./features/filter";
+import { loadingAuctionTimeReducer } from "./features/loadingAuctionTime";
 
 export const makeStore = () => {
   return configureStore({
@@ -9,6 +10,7 @@ export const makeStore = () => {
       search: searchReducer,
       session: sessionReducer,
       filter: searchFilterRegionReducer,
+      loadingTime: loadingAuctionTimeReducer,
     },
   });
 };
