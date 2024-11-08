@@ -1,1 +1,1 @@
-export { SearchTab } from "./ui/ui";
+export { MainTab } from "./ui/ui";
