@@ -1,6 +1,7 @@
 import styles from "./ui.module.scss";
 import { Skeleton, Tag } from "antd";
 import { IAuctionDetail } from "@/shared/interface/auctionById";
+import Link from "next/link";
 export const SessionViewHeader = ({
   session,
   isLoading,
@@ -31,7 +32,13 @@ export const SessionViewHeader = ({
               <Tag color="magenta">дублирующая</Tag>{" "}
               <Tag color="magenta">дублирующая</Tag>
             </div>
-            <h1 className={styles.h1}>{session?.name}</h1>
+            <Link
+              target="_blank"
+              href={`https://zakupki.mos.ru/auction/${session?.id}`}
+              className={styles.h1}
+            >
+              {session?.name}
+            </Link>
           </>
         )}
       </header>

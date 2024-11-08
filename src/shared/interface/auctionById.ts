@@ -126,5 +126,40 @@ export interface IDeliveryItem {
 export interface IFile {
   companyId: number | null;
   name: string;
+  url: string;
   id: number;
+}
+
+export interface ISpecification {
+  characteristics: {
+    name: string;
+    value: string;
+  }[];
+  auctionItemDelivery: {
+    startDate: string;
+    endDate: string;
+    daysStart: string;
+    daysEnd: string;
+    workdays: string;
+    deliverOnWorkDays: string;
+    details: string;
+    deliveryAddress: string;
+    quantity: number;
+    buyer: string;
+    id: number;
+  }[];
+  okpd: {
+    code: string;
+    name: string;
+    id: number;
+  };
+  production: {
+    code: string;
+    name: string;
+    id: number;
+  };
+  skuModelName: string;
+  skuManufacturerName: string;
+  oksm: string;
+  id: number; // Самый главный
 }
