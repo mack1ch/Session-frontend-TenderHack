@@ -15,16 +15,21 @@ import {
 } from "@/shared/redux/features/loadingAuctionTime";
 
 export const SearchTab = () => {
+  const [activeTabValue, setActiveTabValue] = useState<string>(
+    DSearchTabItems[0].value
+  );
   const dispatch = useAppDispatch();
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
-  // const [loadingTime, setLoadingTime] = useState<number | null>(null);
   const loadingTime = useAppSelector((store) => store.loadingTime.time);
   const [startTime, setStartTime] = useState<number | null>(null);
   const searchValue = useAppSelector((state) => state.search.query);
   const searchFilterRegions = useAppSelector((state) => state.filter.regions);
   const initialDuration = useAppSelector(
     (state) => state.filter.initialDuration
+  );
+  const productionDirectoryPaths = useAppSelector(
+    (store) => store.filter.product
   );
   const hasParticipants = useAppSelector(
     (state) => state.filter.hasParticipants
@@ -46,6 +51,7 @@ export const SearchTab = () => {
       hasParticipants,
       isContractGuaranteeRequired,
       isElectronicContractExecutionRequired,
+      productionDirectoryPaths ,
     }),
     [
       searchValue,
@@ -56,6 +62,7 @@ export const SearchTab = () => {
       currentPage,
       isContractGuaranteeRequired,
       isElectronicContractExecutionRequired,
+      productionDirectoryPaths,
     ]
   );
 
@@ -69,7 +76,6 @@ export const SearchTab = () => {
   );
 
   useEffect(() => {
-    console.log(loadingTime);
     if (isLoading && startTime === null) {
       setStartTime(performance.now());
     }
@@ -93,10 +99,6 @@ export const SearchTab = () => {
       setStartTime(null);
     };
   }, []);
-
-  const [activeTabValue, setActiveTabValue] = useState<string>(
-    DSearchTabItems[0].value
-  );
 
   const getContentForTab = () => {
     const activeTab = DSearchTabItems.find(

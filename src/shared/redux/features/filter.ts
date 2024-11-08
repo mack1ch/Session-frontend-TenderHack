@@ -6,6 +6,7 @@ interface SearchFilterState {
   hasParticipants: string;
   isContractGuaranteeRequired: string;
   isElectronicContractExecutionRequired: string;
+  product: string;
 }
 
 const initialState: SearchFilterState = {
@@ -14,6 +15,7 @@ const initialState: SearchFilterState = {
   hasParticipants: "",
   isContractGuaranteeRequired: "",
   isElectronicContractExecutionRequired: "",
+  product: "",
 };
 
 const filterSlice = createSlice({
@@ -28,6 +30,9 @@ const filterSlice = createSlice({
     },
     setSearchFilterHasParticipants: (state, action: PayloadAction<string>) => {
       state.hasParticipants = action.payload;
+    },
+    setSearchFilterProduct: (state, action: PayloadAction<string>) => {
+      state.product = action.payload;
     },
     setSearchFilterContractGuaranteeRequired: (
       state,
@@ -48,6 +53,7 @@ export const {
   setSearchFilterRegions,
   setSearchFilterInitialDuration,
   setSearchFilterHasParticipants,
+  setSearchFilterProduct,
   setSearchFilterContractGuaranteeRequired,
   setSearchFilterElectronicContractExecutionRequired,
 } = filterSlice.actions;

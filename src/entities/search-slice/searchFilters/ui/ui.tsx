@@ -1,9 +1,9 @@
 "use client";
 
-import { Button, Dropdown, MenuProps, Skeleton, Space } from "antd";
+import { Button, Dropdown, MenuProps, Skeleton, Space, TreeSelect } from "antd";
 import styles from "./ui.module.scss";
 import { DownOutlined } from "@ant-design/icons";
-import { useMemo } from "react";
+import { ReactNode, useEffect, useMemo, useState } from "react";
 import useSWR from "swr";
 import { fetcher } from "@/shared/api";
 import { useAppDispatch, useAppSelector } from "@/shared/redux/hooks";
@@ -13,17 +13,72 @@ import {
   setSearchFilterHasParticipants,
   setSearchFilterContractGuaranteeRequired,
   setSearchFilterElectronicContractExecutionRequired,
+  setSearchFilterProduct,
 } from "@/shared/redux/features/filter";
 import { DThreeVariants, DTimeOfSessionContinue } from "../data";
 import { IAuctionRegion } from "@/shared/interface/auctionById";
+import { IProduct } from "@/shared/interface/product";
+import { DefaultOptionType } from "antd/es/select";
+import { ChangeEventExtra, LegacyDataNode, RawValueType } from "../interface";
 
 export const SearchFilters = () => {
   const dispatch = useAppDispatch();
+  const [treeData, setTreeData] = useState<DefaultOptionType[]>([]);
   const searchFilterRegions = useAppSelector((state) => state.filter.regions);
   const { data: regions, isLoading } = useSWR<IAuctionRegion[]>(
     `/auctions/regions/`,
     fetcher
   );
+  const { data: products } = useSWR<IProduct[]>(`/auctions/products/`, fetcher);
+
+  useEffect(() => {
+    if (products && Array.isArray(products)) {
+      const initialTreeData = products?.map((product) => ({
+        title: product.name,
+        value: product.id,
+        key: product.id,
+        isLeaf: product.isLastLevel,
+        children: [],
+      }));
+      setTreeData(initialTreeData);
+    }
+  }, [products]);
+  const loadData = async (dataNode: LegacyDataNode) => {
+    if (dataNode.isLeaf) return;
+
+    const response = await fetcher(
+      `/auctions/products/?parentId=${dataNode.key}`
+    );
+    const children = response.map((child: IProduct) => ({
+      title: child.name,
+      value: child.id,
+      key: child.id,
+      isLeaf: child.isLastLevel,
+    }));
+
+    const updateTreeData = (
+      list: DefaultOptionType[],
+      key: React.Key,
+      children: DefaultOptionType[]
+    ): DefaultOptionType[] => {
+      return list.map((item) => {
+        if (item.key === key) {
+          return {
+            ...item,
+            children,
+          };
+        } else if (item.children) {
+          return {
+            ...item,
+            children: updateTreeData(item.children, key, children),
+          };
+        }
+        return item;
+      });
+    };
+
+    setTreeData((origin) => updateTreeData(origin, dataNode.key, children));
+  };
 
   const regionsOptionsMemo: MenuProps["items"] = useMemo(() => {
     if (regions && Array.isArray(regions)) {
@@ -65,6 +120,44 @@ export const SearchFilters = () => {
     (e) => {
       dispatch(setSearchFilterElectronicContractExecutionRequired(e.key));
     };
+
+  const handleTreeSelectChange = (
+    value: string[],
+    label: ReactNode,
+    extra: ChangeEventExtra
+  ) => {
+    if (extra && extra.triggerValue && label && value) {
+      const path = getPathToNode(extra.triggerValue, treeData);
+      dispatch(setSearchFilterProduct(path));
+    }
+  };
+
+  const getPathToNode = (
+    triggerValue: RawValueType,
+    tree: DefaultOptionType[]
+  ): string => {
+    const path: string[] = [];
+
+    const findNode = (
+      nodes: DefaultOptionType[],
+      currentPath: string[]
+    ): boolean => {
+      for (const node of nodes) {
+        const newPath = [...currentPath, node.value as string];
+        if (node.value === triggerValue) {
+          path.push(...newPath);
+          return true;
+        }
+        if (node.children && findNode(node.children, newPath)) {
+          return true;
+        }
+      }
+      return false;
+    };
+
+    findNode(tree, []);
+    return "." + path.join(".") + ".";
+  };
 
   return (
     <div className={styles.wrap}>
@@ -160,6 +253,18 @@ export const SearchFilters = () => {
               </Space>
             </Button>
           </Dropdown>
+
+          <TreeSelect
+            style={{ minWidth: "180px" }}
+            treeData={treeData}
+            // @ts-expect-error баг antd
+            loadData={loadData}
+            dropdownStyle={{ width: "400px" }}
+            showSearch
+            onChange={handleTreeSelectChange}
+            allowClear
+            placeholder="Категория продукта"
+          />
         </>
       )}
     </div>
