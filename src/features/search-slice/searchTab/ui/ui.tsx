@@ -146,6 +146,7 @@ export const SearchTab = () => {
 
           {fetchAuctions?.items?.map((fetchAuction) => (
             <QuotationSessionCard
+              tabItemID="search"
               auction={fetchAuction}
               key={fetchAuction.number}
             />

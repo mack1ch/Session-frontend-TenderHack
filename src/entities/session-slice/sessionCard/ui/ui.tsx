@@ -6,7 +6,13 @@ import { IAuction } from "@/shared/interface/auction";
 import { CancelModal } from "../cancelModal";
 import { useState } from "react";
 
-export const QuotationSessionCard = ({ auction }: { auction: IAuction }) => {
+export const QuotationSessionCard = ({
+  auction,
+  tabItemID = "check",
+}: {
+  auction: IAuction;
+  tabItemID?: string;
+}) => {
   const [isCancelModalOpen, setIsCancelModalOpen] = useState<boolean>(false);
   return (
     <>
@@ -31,9 +37,9 @@ export const QuotationSessionCard = ({ auction }: { auction: IAuction }) => {
             <div className={styles.main}>
               <Link
                 className={styles.sessionName}
-                href={`/session/${auction.auctionId}`}
+                href={`/session/${auction.auctionId}?activeTabItem=${tabItemID}`}
               >
-                {auction.name}
+                {auction.name.toLowerCase()}
               </Link>
             </div>
             <div className={styles.footer}>
@@ -53,7 +59,7 @@ export const QuotationSessionCard = ({ auction }: { auction: IAuction }) => {
               >
                 Отменить
               </Button>
-              <Button size="middle">Отменить позже</Button>
+              {/* <Button size="middle">Отметить проверенной</Button> */}
             </div>
             <p className={styles.regionAndDate}>
               <EnvironmentOutlined style={{ color: "#757575" }} />

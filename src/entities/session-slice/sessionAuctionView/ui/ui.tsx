@@ -32,7 +32,7 @@ export const SessionAuctionView = ({
 
   return (
     <section style={style} className={styles.customerView}>
-      {isLoading ? (
+      {isLoading || !session ? (
         <Skeleton />
       ) : (
         <>
@@ -84,12 +84,11 @@ export const SessionAuctionView = ({
                     className={styles.infoOfAuctionItem}
                   >
                     <span className={styles.h2__title}>Регион:</span>
-                    <h2 className={styles.h2}>
-                      {auctionRegion.name.toLowerCase()}
-                    </h2>
+                    <h2 className={styles.h2}>{auctionRegion.name}</h2>
                   </div>
                 )
             )}
+
             <div className={styles.infoOfAuctionItem}>
               <span className={styles.h2__title}>
                 Обеспечение исполнения контракта:
@@ -124,7 +123,7 @@ export const SessionAuctionView = ({
                   Наличие сертификатов/лицензий:
                 </span>
                 <h2 className={styles.h2}>
-                  {session.uploadLicenseDocumentsComment.toLowerCase()}
+                  {session.uploadLicenseDocumentsComment}
                 </h2>
               </div>
             )}
@@ -144,9 +143,7 @@ export const SessionAuctionView = ({
             {session?.conclusionReasonName && (
               <div className={styles.infoOfAuctionItem}>
                 <span className={styles.h2__title}>Причина заключения:</span>
-                <h2 className={styles.h2}>
-                  {session.conclusionReasonName.toLowerCase()}
-                </h2>
+                <h2 className={styles.h2}>{session.conclusionReasonName}</h2>
               </div>
             )}
             {session?.federalLawName && (

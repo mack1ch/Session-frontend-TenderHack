@@ -1,6 +1,7 @@
 import styles from "./ui.module.scss";
 import { ISearchTabItem } from "../../interface";
 import { CSSProperties } from "react";
+import Link from "next/link";
 
 export const TabItem = ({
   tabItem,
@@ -13,13 +14,14 @@ export const TabItem = ({
 }) => {
   return (
     <>
-      <button
+      <Link
+        href="/"
         onClick={() => onClick && onClick(tabItem.value)}
         style={style}
         className={styles.tabItem}
       >
         {tabItem.icon} {tabItem.label}
-      </button>
+      </Link>
     </>
   );
 };

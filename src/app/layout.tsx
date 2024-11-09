@@ -4,6 +4,7 @@ import "./globals.scss";
 import { AntdRegistry } from "@ant-design/nextjs-registry";
 import { ThemeLayout } from "@/shared/layout/themeLayout";
 import StoreProvider from "./ StoreProvider";
+import { Suspense } from "react";
 
 const RF_Dewi = localFont({
   src: [
@@ -40,7 +41,9 @@ export default function RootLayout({
       <body className={`${RF_Dewi.className}`}>
         <AntdRegistry>
           <ThemeLayout>
-            <StoreProvider>{children}</StoreProvider>
+            <StoreProvider>
+              <Suspense>{children}</Suspense>
+            </StoreProvider>
           </ThemeLayout>
         </AntdRegistry>
       </body>

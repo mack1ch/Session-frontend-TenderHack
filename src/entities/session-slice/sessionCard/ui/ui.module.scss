@@ -54,6 +54,9 @@
             color: #2291ff;
             text-decoration: underline;
           }
+          &::first-letter {
+            text-transform: uppercase;
+          }
         }
       }
       .footer {

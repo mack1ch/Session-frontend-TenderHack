@@ -12,9 +12,12 @@ import {
 import { AppLayout } from "@/shared/layout/appLayout/ui/ui";
 import { Breadcrumb, Divider } from "antd";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import useSWR from "swr";
 
 export default function Home({ params }: { params: { id: number } }) {
+  const searchParams = useSearchParams();
+  const activeTabItem = searchParams.get("activeTabItem");
   const { data: fetchAuction, isLoading } = useSWR<IAuctionDetail>(
     params.id ? `/auctions/${params.id}/` : ``,
     fetcher
@@ -38,7 +41,9 @@ export default function Home({ params }: { params: { id: number } }) {
         <Breadcrumb
           items={[
             {
-              title: <Link href="/">Закупки</Link>,
+              title: (
+                <Link href={`/?activeTabItem=${activeTabItem}`}>Закупки</Link>
+              ),
             },
             {
               title: (

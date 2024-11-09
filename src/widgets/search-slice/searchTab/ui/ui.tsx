@@ -3,9 +3,13 @@ import { TabItem } from "../tabItem";
 import { DSearchTabItems } from "../data";
 import { useState } from "react";
 
-export const MainTab = () => {
+export const MainTab = ({
+  activeTabItem = "check",
+}: {
+  activeTabItem: string | null;
+}) => {
   const [activeTabValue, setActiveTabValue] = useState<string>(
-    DSearchTabItems[0].value
+    activeTabItem || DSearchTabItems[0].value
   );
   const getContentForTab = () => {
     const activeTab = DSearchTabItems.find(

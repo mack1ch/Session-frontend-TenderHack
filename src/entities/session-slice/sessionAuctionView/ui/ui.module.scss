@@ -18,6 +18,11 @@
         font-weight: 300;
         color: #333;
       }
+      .h2__title {
+        font-size: 16px;
+        font-weight: 300;
+        color: #757575;
+      }
       .h2_withFirstLetterUpperCase {
         font-size: 16px;
         font-weight: 300;
@@ -26,10 +31,7 @@
           text-transform: uppercase;
         }
       }
-      .h2__title {
-        font-size: 16px;
-        color: #222;
-      }
+
       .column {
         display: flex;
         flex-direction: column;
