@@ -9,6 +9,7 @@ import {
   IFile,
   ISpecification,
 } from "@/shared/interface/auctionById";
+import { IHistory } from "@/shared/interface/history";
 import { AppLayout } from "@/shared/layout/appLayout/ui/ui";
 import { Breadcrumb, Divider } from "antd";
 import Link from "next/link";
@@ -28,6 +29,10 @@ export default function Home({ params }: { params: { id: number } }) {
   );
   const { data: fetchSpecifications } = useSWR<ISpecification[]>(
     fetchAuction?.id ? `/auctions/${fetchAuction.id}/specifications/` : "",
+    fetcher
+  );
+  const { data: fetchHistory } = useSWR<IHistory[]>(
+    "/viewed_history/",
     fetcher
   );
   return (
@@ -55,7 +60,7 @@ export default function Home({ params }: { params: { id: number } }) {
           ]}
         />
         <Divider />
-        <SessionViewHeader isLoading={isLoading} session={fetchAuction} />
+        <SessionViewHeader history={fetchHistory} isLoading={isLoading} session={fetchAuction} />
         <div
           style={{
             width: "100%",

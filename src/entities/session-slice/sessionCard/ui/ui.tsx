@@ -1,7 +1,7 @@
 import Link from "next/link";
 import styles from "./ui.module.scss";
-import { Button, Tag } from "antd";
-import { EnvironmentOutlined } from "@ant-design/icons";
+import { Button, Tag, Tooltip } from "antd";
+import { CheckCircleOutlined, EnvironmentOutlined } from "@ant-design/icons";
 import { IAuction } from "@/shared/interface/auction";
 import { CancelModal } from "../cancelModal";
 import { useState } from "react";
@@ -9,8 +9,10 @@ import { useState } from "react";
 export const QuotationSessionCard = ({
   auction,
   tabItemID = "check",
+  isRead = false,
 }: {
   auction: IAuction;
+  isRead: boolean;
   tabItemID?: string;
 }) => {
   const [isCancelModalOpen, setIsCancelModalOpen] = useState<boolean>(false);
@@ -36,11 +38,17 @@ export const QuotationSessionCard = ({
             </div>
             <div className={styles.main}>
               <Link
+                style={{ color: isRead ? "#70BDFF" : undefined }}
                 className={styles.sessionName}
                 href={`/session/${auction.auctionId}?activeTabItem=${tabItemID}`}
               >
                 {auction.name.toLowerCase()}
               </Link>
+              {isRead && (
+                <Tooltip title="Вы уже проверяли эту котировочную сессию">
+                  <CheckCircleOutlined style={{ color: "#70BDFF" }} />
+                </Tooltip>
+              )}
             </div>
             <div className={styles.footer}>
               {auction.customers.map((customer) => (

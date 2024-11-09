@@ -13,6 +13,7 @@ import {
 } from "@/shared/redux/features/loadingAuctionTime";
 import { SearchInput } from "@/entities/search-slice/searchInput";
 import { IFetchAuctions } from "../interface";
+import { IHistory } from "@/shared/interface/history";
 
 export const SearchTab = () => {
   const dispatch = useAppDispatch();
@@ -37,6 +38,13 @@ export const SearchTab = () => {
   const isElectronicContractExecutionRequired = useAppSelector(
     (state) => state.filter.isElectronicContractExecutionRequired
   );
+  const { data: history } = useSWR<IHistory[]>(`/viewed_history/`, fetcher);
+
+  const historyIDs = useMemo(() => {
+    return history && Array.isArray(history)
+      ? history?.map((historyItem) => historyItem.auctionId)
+      : [];
+  }, [history]);
 
   const queryParams = useMemo(
     () => ({
@@ -101,7 +109,7 @@ export const SearchTab = () => {
     setCurrentPage(page);
     if (pageSize) setPageSize(pageSize);
   };
-
+  console.log(historyIDs, history);
   return (
     <>
       <section className={styles.searchTabLayout}>
@@ -146,6 +154,9 @@ export const SearchTab = () => {
 
           {fetchAuctions?.items?.map((fetchAuction) => (
             <QuotationSessionCard
+              isRead={Boolean(
+                historyIDs?.includes(Number(fetchAuction.auctionId))
+              )}
               tabItemID="search"
               auction={fetchAuction}
               key={fetchAuction.number}

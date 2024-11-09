@@ -51,6 +51,7 @@ export const SessionsUnPublishFilters = () => {
               <Skeleton.Input active style={{ width: "100%" }} block />
             </>
           ) : (
+            Array.isArray(checkedValues) &&
             checkedValues
               ?.sort((a, b) => a.id - b.id)
               .map((setting) =>
