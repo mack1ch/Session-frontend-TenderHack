@@ -17,7 +17,6 @@ import Link from "next/link";
 import { isValidLink, parseLinks } from "../model";
 import { DraggableUploadListItem } from "../drabbleUploadListItem";
 import { UploadFile } from "antd/lib";
-
 export const CheckInput = ({
   sessionLinks = [],
   setSessionLinks,
@@ -27,6 +26,8 @@ export const CheckInput = ({
 }) => {
   const [fileList, setFileList] = useState<UploadFile[]>();
   const [textAreaValue, setTextAreaValue] = useState<string>("");
+  const [hasError, setHasError] = useState(false); // Перенесено на уровень компонента
+
   const updateLinks = (newLinks: string[]) => {
     const uniqueLinks = Array.from(new Set(newLinks));
     setSessionLinks(uniqueLinks);
@@ -48,10 +49,12 @@ export const CheckInput = ({
     const parsedLinks = parseLinks(newValue.replace(/\n/g, " "));
     setSessionLinks(parsedLinks);
   };
+
   const onClear = () => {
     setTextAreaValue("");
     setSessionLinks([]);
     setFileList([]);
+    setHasError(false); // Сбрасываем флаг ошибки
   };
 
   const onFileChange: UploadProps["onChange"] = async ({ file }) => {
@@ -65,12 +68,16 @@ export const CheckInput = ({
         const validLinks = parsedLinks.filter((link) => isValidLink(link));
         const invalidLinks = parsedLinks.filter((link) => !isValidLink(link));
 
-        if (invalidLinks.length > 0) {
+        // Проверка на наличие ошибок
+        if (invalidLinks.length > 0 && !hasError) {
+          setHasError(true); // Устанавливаем флаг ошибки
           message.error("Файл содержит ссылки с неверным форматом.");
           return;
         }
 
+        // Если ошибок нет, сбрасываем флаг
         if (validLinks.length > 0) {
+          setHasError(false);
           updateLinks([...sessionLinks, ...validLinks]);
         }
       };
