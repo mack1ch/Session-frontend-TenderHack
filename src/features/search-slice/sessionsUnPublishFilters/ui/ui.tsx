@@ -1,6 +1,6 @@
 "use client";
 
-import { Checkbox, message, Skeleton, Tooltip } from "antd";
+import { Checkbox, Divider, message, Skeleton, Tooltip } from "antd";
 import styles from "./ui.module.scss";
 import useSWR from "swr";
 import { ISetting } from "@/shared/interface/settings";
@@ -35,6 +35,32 @@ export const SessionsUnPublishFilters = () => {
     }
   };
 
+  const renderCheckbox = (setting: ISetting) =>
+    setting.description ? (
+      <Tooltip
+        key={setting.id}
+        placement="bottomRight"
+        title={setting.description}
+      >
+        <Checkbox
+          onChange={() => changeCheckBoxValue(setting.value, setting.id)}
+          value={setting.value}
+          checked={setting.value}
+        >
+          {setting.title}
+        </Checkbox>
+      </Tooltip>
+    ) : (
+      <Checkbox
+        key={setting.id}
+        onChange={() => changeCheckBoxValue(setting.value, setting.id)}
+        value={setting.value}
+        checked={setting.value}
+      >
+        {setting.title}
+      </Checkbox>
+    );
+
   return (
     <>
       <section className={styles.filtersLayout}>
@@ -51,39 +77,26 @@ export const SessionsUnPublishFilters = () => {
               <Skeleton.Input active style={{ width: "100%" }} block />
             </>
           ) : (
-            Array.isArray(checkedValues) &&
-            checkedValues
-              ?.sort((a, b) => a.id - b.id)
-              .map((setting) =>
-                setting.description ? (
-                  <Tooltip
-                    key={setting.id}
-                    placement="bottomRight"
-                    title={setting.description}
-                  >
-                    <Checkbox
-                      onChange={() =>
-                        changeCheckBoxValue(setting.value, setting.id)
-                      }
-                      value={setting.value}
-                      checked={setting.value}
-                    >
-                      {setting.title}
-                    </Checkbox>
-                  </Tooltip>
-                ) : (
-                  <Checkbox
-                    key={setting.id}
-                    onChange={() =>
-                      changeCheckBoxValue(setting.value, setting.id)
-                    }
-                    value={setting.value}
-                    checked={setting.value}
-                  >
-                    {setting.title}
-                  </Checkbox>
-                )
-              )
+            <>
+              {Array.isArray(checkedValues) && (
+                <>
+                  {/* Рендер чекбоксов с типом "main" */}
+                  {checkedValues
+                    .filter((setting) => setting.type === "main")
+                    .sort((a, b) => a.id - b.id)
+                    .map(renderCheckbox)}
+
+                  {/* Разделитель */}
+                  <Divider style={{ margin: "8px 0" }} />
+
+                  {/* Рендер чекбоксов с типом "other" */}
+                  {checkedValues
+                    .filter((setting) => setting.type === "other")
+                    .sort((a, b) => a.id - b.id)
+                    .map(renderCheckbox)}
+                </>
+              )}
+            </>
           )}
         </div>
       </section>

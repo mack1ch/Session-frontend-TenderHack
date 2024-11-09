@@ -3,4 +3,5 @@ export interface ISetting {
   title: string;
   description: string;
   value: boolean;
+  type: "main" | "other";
 }
