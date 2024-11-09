@@ -1,11 +1,12 @@
 import styles from "./ui.module.scss";
-import { Skeleton, Tag, Tooltip } from "antd";
+import { Button, message, Skeleton, Tag, Tooltip } from "antd";
 import { IAuctionDetail } from "@/shared/interface/auctionById";
 import Link from "next/link";
 import { CheckCircleOutlined } from "@ant-design/icons";
 import { IHistory } from "@/shared/interface/history";
-import { useEffect } from "react";
+
 import { changeSessionUnPublishFilterValue } from "../api";
+import { useEffect, useState } from "react";
 export const SessionViewHeader = ({
   session,
   isLoading,
@@ -15,19 +16,27 @@ export const SessionViewHeader = ({
   isLoading: boolean;
   history?: IHistory[];
 }) => {
-  const isAuctionInHistory =
-    session && history
-      ? history.map((item) => item.auctionId === session.id)
-      : false;
+  const [isAuctionInHistory, setIsAuctionInHistory] = useState<boolean>(false);
 
   useEffect(() => {
-    const addToHistory = async () => {
-      await changeSessionUnPublishFilterValue(session?.id);
-    };
-    if (session) {
-      addToHistory();
+    setIsAuctionInHistory(
+      session && history
+        ? history
+            .map((historyItem) => Number(historyItem.auctionId))
+            .includes(session.id)
+        : false
+    );
+  }, [session, history]);
+
+  const addToHistory = async () => {
+    const res = await changeSessionUnPublishFilterValue(session?.id);
+    if (res) {
+      message.success(
+        'Котировочная сессия успешно перенесе в раздел "Просмотренные"'
+      );
+      setIsAuctionInHistory(true);
     }
-  }, [session]);
+  };
 
   return (
     <>
@@ -53,19 +62,26 @@ export const SessionViewHeader = ({
               <Tag color="magenta">дублирующая</Tag>
             </div>
             <div className={styles.row}>
-              <Link
-                target="_blank"
-                href={`https://zakupki.mos.ru/auction/${session?.id}`}
-                className={styles.h1}
-              >
-                {session?.name.toLowerCase()}
-              </Link>
-              {isAuctionInHistory && (
-                <Tooltip title="Вы уже проверяли эту котировочную сессию">
-                  <CheckCircleOutlined
-                    style={{ fontSize: "30px", color: "#1874cf" }}
-                  />
-                </Tooltip>
+              <div className={styles.header}>
+                <Link
+                  target="_blank"
+                  href={`https://zakupki.mos.ru/auction/${session?.id}`}
+                  className={styles.h1}
+                >
+                  {session?.name.toLowerCase()}
+                </Link>
+                {isAuctionInHistory && (
+                  <Tooltip title="Вы уже проверяли эту котировочную сессию">
+                    <CheckCircleOutlined
+                      style={{ fontSize: "30px", color: "#1874cf" }}
+                    />
+                  </Tooltip>
+                )}
+              </div>
+              {!isAuctionInHistory && (
+                <Button onClick={addToHistory} type="primary">
+                  Отметить прочитанной
+                </Button>
               )}
             </div>
           </>

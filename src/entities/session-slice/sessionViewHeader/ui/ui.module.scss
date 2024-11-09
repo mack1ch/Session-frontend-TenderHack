@@ -11,19 +11,28 @@
   .row {
     display: flex;
     align-items: center;
-    gap: 8px;
-    .h1 {
-      font-size: 30px;
-      color: #1874cf;
-      transition: all 0.2s;
+    justify-content: space-between;
+    width: 100%;
+    .header {
+      display: flex;
+      align-items: center;
+      flex-direction: row;
+
       gap: 8px;
-      &:hover {
-        color: #2291ff;
-        text-decoration: underline;
-        cursor: pointer;
-      }
-      &::first-letter {
-        text-transform: uppercase;
+      max-width: 80%;
+      .h1 {
+        font-size: 30px;
+        color: #1874cf;
+        transition: all 0.2s;
+        gap: 8px;
+        &:hover {
+          color: #2291ff;
+          text-decoration: underline;
+          cursor: pointer;
+        }
+        &::first-letter {
+          text-transform: uppercase;
+        }
       }
     }
   }
