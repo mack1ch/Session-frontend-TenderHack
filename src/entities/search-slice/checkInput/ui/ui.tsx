@@ -24,7 +24,6 @@ export const CheckInput = () => {
   const [textAreaValue, setTextAreaValue] = useState<string>("");
   const [sessionLinks, setSessionLinks] = useState<string[]>([]);
 
-
   const updateLinks = (newLinks: string[]) => {
     const uniqueLinks = Array.from(new Set(newLinks));
     setSessionLinks(uniqueLinks);
@@ -36,17 +35,25 @@ export const CheckInput = () => {
     const data = e.clipboardData.getData("text");
     const parsedLinks = parseLinks(data);
 
-
     updateLinks([...sessionLinks, ...parsedLinks]);
   };
 
   const onChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
+  
+
     const newValue = e.target.value;
     const parsedLinks = parseLinks(newValue);
 
     updateLinks(parsedLinks);
   };
 
+  // const onChange = (e: KeyboardEvent) => {
+  //   if (e.key !== "Enter") {
+  //     const newValue = e;
+  //     const parsedLinks = parseLinks(newValue);
+  //     updateLinks(parsedLinks);
+  //   }
+  // };
   const onClear = () => {
     setTextAreaValue("");
     setSessionLinks([]);

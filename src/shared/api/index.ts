@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosInstance } from "axios";
 
 const BASE_URL = "https://тендерхак.екат.рус";
 
@@ -16,3 +16,9 @@ export const fetcher = (url: string) =>
       }
       return e;
     });
+
+export const instance: AxiosInstance = axios.create({
+  baseURL: BASE_URL,
+  timeout: 5000,
+  withCredentials: true,
+});
