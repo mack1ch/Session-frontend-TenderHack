@@ -8,5 +8,5 @@ export interface IHistory {
 
 export interface IDetailedHistory {
   count: number;
-  items: IAuction;
+  items: IAuction[];
 }

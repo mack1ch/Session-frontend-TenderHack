@@ -6,6 +6,7 @@ import {
   SearchOutlined,
 } from "@ant-design/icons";
 import { CheckTab } from "@/features/search-slice/checkTab";
+import { CheckedSession } from "@/features/search-slice/checkedSession";
 
 export const DSearchTabItems: ISearchTabItem[] = [
   {
@@ -25,5 +26,6 @@ export const DSearchTabItems: ISearchTabItem[] = [
     value: "checked",
     label: "Просмотренные",
     icon: <CheckCircleOutlined style={{ fontSize: "20px" }} />,
+    content: <CheckedSession />,
   },
 ];

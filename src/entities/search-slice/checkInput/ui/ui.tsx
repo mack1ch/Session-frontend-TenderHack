@@ -15,15 +15,18 @@ import { checkInputThemeContext } from "../theme";
 import { ChangeEvent, ClipboardEvent, useState } from "react";
 import Link from "next/link";
 import { isValidLink, parseLinks } from "../model";
-
 import { DraggableUploadListItem } from "../drabbleUploadListItem";
 import { UploadFile } from "antd/lib";
 
-export const CheckInput = () => {
+export const CheckInput = ({
+  sessionLinks = [],
+  setSessionLinks,
+}: {
+  sessionLinks: string[];
+  setSessionLinks: (arg: string[]) => void;
+}) => {
   const [fileList, setFileList] = useState<UploadFile[]>();
   const [textAreaValue, setTextAreaValue] = useState<string>("");
-  const [sessionLinks, setSessionLinks] = useState<string[]>([]);
-
   const updateLinks = (newLinks: string[]) => {
     const uniqueLinks = Array.from(new Set(newLinks));
     setSessionLinks(uniqueLinks);
@@ -39,21 +42,12 @@ export const CheckInput = () => {
   };
 
   const onChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-  
-
     const newValue = e.target.value;
-    const parsedLinks = parseLinks(newValue);
+    setTextAreaValue(newValue);
 
-    updateLinks(parsedLinks);
+    const parsedLinks = parseLinks(newValue.replace(/\n/g, " "));
+    setSessionLinks(parsedLinks);
   };
-
-  // const onChange = (e: KeyboardEvent) => {
-  //   if (e.key !== "Enter") {
-  //     const newValue = e;
-  //     const parsedLinks = parseLinks(newValue);
-  //     updateLinks(parsedLinks);
-  //   }
-  // };
   const onClear = () => {
     setTextAreaValue("");
     setSessionLinks([]);
@@ -83,6 +77,11 @@ export const CheckInput = () => {
       reader.readAsText(uploadedFile);
     }
     setFileList(fileList);
+  };
+
+  const onTagClose = (linkToRemove: string) => {
+    const updatedLinks = sessionLinks.filter((link) => link !== linkToRemove);
+    updateLinks(updatedLinks);
   };
 
   return (
@@ -128,6 +127,7 @@ export const CheckInput = () => {
                 display: "flex",
                 gap: "4px",
               }}
+              onClose={() => onTagClose(sessionLink)}
               closeIcon={<CloseCircleOutlined />}
               key={index}
             >
