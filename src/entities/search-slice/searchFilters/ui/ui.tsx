@@ -159,6 +159,10 @@ export const SearchFilters = () => {
     return "." + path.join(".") + ".";
   };
 
+  const onTreeSelectClear = () => {
+    dispatch(setSearchFilterProduct(""));
+  };
+
   return (
     <div className={styles.wrap}>
       {isLoading ? (
@@ -257,10 +261,10 @@ export const SearchFilters = () => {
           <TreeSelect
             style={{ minWidth: "180px" }}
             treeData={treeData}
+            onClear={onTreeSelectClear}
             // @ts-expect-error баг antd
             loadData={loadData}
             dropdownStyle={{ width: "400px" }}
-            showSearch
             onChange={handleTreeSelectChange}
             allowClear
             placeholder="Категория продукта"

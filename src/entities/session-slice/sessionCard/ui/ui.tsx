@@ -3,10 +3,18 @@ import styles from "./ui.module.scss";
 import { Button, Tag } from "antd";
 import { EnvironmentOutlined } from "@ant-design/icons";
 import { IAuction } from "@/shared/interface/auction";
+import { CancelModal } from "../cancelModal";
+import { useState } from "react";
 
 export const QuotationSessionCard = ({ auction }: { auction: IAuction }) => {
+  const [isCancelModalOpen, setIsCancelModalOpen] = useState<boolean>(false);
   return (
     <>
+      <CancelModal
+        isOpen={isCancelModalOpen}
+        session={auction}
+        setIsOpen={setIsCancelModalOpen}
+      />
       <article className={styles.sessionCard}>
         <span className={styles.divider} />
         <div className={styles.content}>
@@ -38,7 +46,11 @@ export const QuotationSessionCard = ({ auction }: { auction: IAuction }) => {
           </div>
           <div className={styles.right}>
             <div className={styles.row}>
-              <Button type="primary" size="middle">
+              <Button
+                onClick={() => setIsCancelModalOpen(true)}
+                type="primary"
+                size="middle"
+              >
                 Отменить
               </Button>
               <Button size="middle">Отменить позже</Button>

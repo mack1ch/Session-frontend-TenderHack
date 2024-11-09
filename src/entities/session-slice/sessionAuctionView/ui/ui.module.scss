@@ -48,6 +48,7 @@
       }
     }
   }
+
   .lots {
     display: flex;
     flex-direction: column;
@@ -85,6 +86,7 @@
     height: auto;
     .graphicsItem {
       display: flex;
+      overflow: hidden;
       align-items: flex-start;
       flex-direction: column;
       justify-content: space-between;
@@ -100,5 +102,18 @@
         width: 100%;
       }
     }
+  }
+}
+.link {
+  font-size: 16px;
+  color: #1874cf;
+  transition: all 0.2s;
+  &:hover {
+    cursor: pointer;
+    color: #2291ff;
+    text-decoration: underline;
+  }
+  &::first-letter {
+    text-transform: uppercase;
   }
 }

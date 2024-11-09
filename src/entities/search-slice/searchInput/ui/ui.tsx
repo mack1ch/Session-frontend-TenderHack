@@ -68,6 +68,7 @@ export const SearchInput = () => {
               onClear={onClear}
               value={inputValue}
               onSearch={onSearch}
+              
               onChange={(e) => setInputValue(e.target.value)}
               prefix={
                 <SearchOutlined style={{ color: "rgba(0, 0, 0, 0.25)" }} />

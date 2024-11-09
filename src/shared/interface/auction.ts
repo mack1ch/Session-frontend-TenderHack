@@ -58,7 +58,13 @@ export interface IWinner {
 }
 
 export interface ISharedPurchaseBuyer {
-  additionalProp1: string;
-  additionalProp2: string;
-  additionalProp3: string;
+  isFullApprovedByBuyer: boolean;
+  isFullRejectedByBuyer: boolean;
+  conclusionReasonId: number;
+  isElectronicContractExecutionRequired: boolean;
+  isContractGuaranteeRequired: boolean;
+  shortName:string
+  contractGuaranteeAmount: number | null;
+  name: string;
+  id: number;
 }
