@@ -5,7 +5,7 @@ import { useState } from "react";
 
 export const MainTab = () => {
   const [activeTabValue, setActiveTabValue] = useState<string>(
-    DSearchTabItems[1].value
+    DSearchTabItems[0].value
   );
   const getContentForTab = () => {
     const activeTab = DSearchTabItems.find(
