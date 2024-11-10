@@ -26,7 +26,7 @@ export const CheckTab = () => {
         message.info("Проверка была отменена");
         setProgress(0);
         setLoading(false);
-        return;
+        break;
       }
 
       const res = await postSessionsURLToCheck(urls[i]);
