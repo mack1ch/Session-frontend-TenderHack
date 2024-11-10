@@ -9,6 +9,7 @@
   padding: 16px;
   width: 100%;
   height: auto;
+  min-height: 320px;
   .analyticsCard {
     display: flex;
     padding: 16px;
@@ -16,5 +17,16 @@
     border-radius: 8px;
     width: 100%;
     height: auto;
+    min-height: 320px;
+  }
+  .loader {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 16px;
+    .p {
+      font-size: 14px;
+      color: #757575;
+    }
   }
 }

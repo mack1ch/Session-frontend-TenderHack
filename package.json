@@ -20,6 +20,7 @@
     "rc-input": "^1.6.3",
     "react": "^18",
     "react-dom": "^18",
+    "react-markdown": "^8.0.6",
     "react-redux": "^9.1.2",
     "redux": "^5.0.1",
     "sass": "^1.80.6",
