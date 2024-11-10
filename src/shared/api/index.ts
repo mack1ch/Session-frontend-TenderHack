@@ -19,7 +19,7 @@ export const fetcher = (url: string) =>
 
 export const instance: AxiosInstance = axios.create({
   baseURL: BASE_URL,
-  timeout: 5000,
+  timeout: 500000,
   withCredentials: true,
   headers: {
     "Access-Control-Allow-Origin": "*",
