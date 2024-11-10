@@ -109,7 +109,7 @@ export const SearchTab = () => {
     setCurrentPage(page);
     if (pageSize) setPageSize(pageSize);
   };
-  console.log(historyIDs, history);
+
   return (
     <>
       <section className={styles.searchTabLayout}>

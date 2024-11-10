@@ -5,16 +5,23 @@ import { CheckCircleOutlined, EnvironmentOutlined } from "@ant-design/icons";
 import { IAuction } from "@/shared/interface/auction";
 import { CancelModal } from "../cancelModal";
 import { useState } from "react";
+import {
+  EAuctionCheckResult,
+  IAuctionCheck,
+} from "@/shared/interface/auctionCheck";
 
 export const QuotationSessionCard = ({
   auction,
   tabItemID = "check",
   isRead = false,
+  auctionChecked,
 }: {
   auction: IAuction;
   isRead: boolean;
   tabItemID?: string;
+  auctionChecked?: IAuctionCheck;
 }) => {
+  const result = auctionChecked?.result;
   const [isCancelModalOpen, setIsCancelModalOpen] = useState<boolean>(false);
   return (
     <>
@@ -33,7 +40,20 @@ export const QuotationSessionCard = ({
                 {auction.auctionId} | {auction.federalLawName}
               </p>
               <div className={styles.errorTags}>
-                <Tag color="magenta">дублирующая</Tag>
+                {result &&
+                  Object.keys(result)
+                    .filter(
+                      (key) => result[key as keyof typeof result] === false
+                    )
+                    .map((key) => (
+                      <Tag color="magenta" key={key}>
+                        {
+                          EAuctionCheckResult[
+                            key as keyof typeof EAuctionCheckResult
+                          ]
+                        }
+                      </Tag>
+                    ))}
               </div>
             </div>
             <div className={styles.main}>
@@ -51,7 +71,7 @@ export const QuotationSessionCard = ({
               )}
             </div>
             <div className={styles.footer}>
-              {auction.customers.map((customer) => (
+              {auction?.customers?.map((customer) => (
                 <p key={customer.id} className={styles.businessName}>
                   {customer.name.toLowerCase()}
                 </p>

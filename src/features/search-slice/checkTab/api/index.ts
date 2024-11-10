@@ -1,18 +1,22 @@
 import { instance } from "@/shared/api";
+import { IAuctionCheck } from "@/shared/interface/auctionCheck";
 import { message } from "antd";
 import { AxiosError } from "axios";
 import { ImageError } from "next/dist/server/image-optimizer";
 
 export const postSessionsURLToCheck = async (
   sessionURL: string
-): Promise<{ reason: string } | null> => {
+): Promise<IAuctionCheck | null> => {
   const handleError = (error: AxiosError<ImageError>) => {
-    message.error(error.response?.data.message || "Ошибка на сервере");
+    message.error(
+      error.response?.data.message ||
+        "Ошибка на сервере, проверьте правильность введенной ссылки"
+    );
     return null;
   };
 
   try {
-    const response = await instance.post<{ reason: string }>(
+    const response = await instance.post<IAuctionCheck>(
       `/auctions/check_url/`,
       {
         url: sessionURL,
