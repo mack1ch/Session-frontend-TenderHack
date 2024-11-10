@@ -1,8 +1,11 @@
 import { IAuctionDetail } from "@/shared/interface/auctionById";
 import styles from "./ui.module.scss";
 import { CSSProperties, useEffect, useState } from "react";
-import { IAuctionCheck } from "@/shared/interface/auctionCheck";
-import { Skeleton, Spin } from "antd";
+import {
+  EAuctionCheckResult,
+  IAuctionCheck,
+} from "@/shared/interface/auctionCheck";
+import { Spin } from "antd";
 import { postSessionsURLToCheck } from "../api";
 export const SessionAnalyticsView = ({
   session,
@@ -29,7 +32,27 @@ export const SessionAnalyticsView = ({
     <>
       <section style={style} className={styles.analyticsView}>
         {auctionCheck ? (
-          <article className={styles.analyticsCard}></article>
+          <>
+            {auctionCheck &&
+              Object.keys(auctionCheck.result)
+                .filter(
+                  (key) =>
+                    auctionCheck?.result[
+                      key as keyof typeof auctionCheck.result
+                    ] === false
+                )
+                .map((key, index) => (
+                  <article key={index} className={styles.analyticsCard}>
+                    <h4 className={styles.h4}>
+                      {
+                        EAuctionCheckResult[
+                          key as keyof typeof EAuctionCheckResult
+                        ]
+                      }
+                    </h4>
+                  </article>
+                ))}
+          </>
         ) : (
           <div className={styles.loader}>
             <Spin size="large" />
