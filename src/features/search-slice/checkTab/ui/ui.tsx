@@ -3,7 +3,7 @@
 import { CheckInput } from "@/entities/search-slice/checkInput";
 import styles from "./ui.module.scss";
 import { Button, Empty, message, Progress } from "antd";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { postSessionsURLToCheck } from "../api";
 import { QuotationSessionCard } from "@/entities/session-slice/sessionCard";
 import { IAuctionCheck } from "@/shared/interface/auctionCheck";
@@ -22,19 +22,14 @@ export const CheckTab = () => {
     const startTime = Date.now();
 
     for (let i = 0; i < urls.length; i++) {
-      if (cancelCheck) {
-        message.info("Проверка была отменена");
-        setProgress(0);
-        setLoading(false);
-        break;
-      }
+      if (!cancelCheck) {
+        const res = await postSessionsURLToCheck(urls[i]);
+        if (res) {
+          setCheckedAuctions((prev) => (prev ? [...prev, res] : [res]));
+        }
 
-      const res = await postSessionsURLToCheck(urls[i]);
-      if (res) {
-        setCheckedAuctions((prev) => (prev ? [...prev, res] : [res]));
+        setProgress(Math.round(((i + 1) / urls.length) * 100));
       }
-
-      setProgress(Math.round(((i + 1) / urls.length) * 100));
     }
 
     setLoading(false);
@@ -43,6 +38,15 @@ export const CheckTab = () => {
     message.info(`Проверка завершена за ${timeTaken} секунд`);
     setProgress(0);
   };
+
+  useEffect(() => {
+    if (cancelCheck) {
+      message.info("Проверка была отменена");
+      setProgress(0);
+      setLoading(false);
+      setCancelCheck(false);
+    }
+  }, [cancelCheck]);
 
   const handleStartChecking = () => {
     if (sessionLinks.length > 0) {
