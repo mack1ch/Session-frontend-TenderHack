@@ -59,11 +59,14 @@ export const SessionAnalyticsView = ({
                       }
                     </h4>
                     <p>
-                      <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                      {/* <ReactMarkdown remarkPlugins={[remarkGfm]}>
                         {auctionCheck.result[
                           key as keyof typeof auctionCheck.result
                         ]?.text ?? ""}
-                      </ReactMarkdown>
+                      </ReactMarkdown> */}
+                      {auctionCheck.result[
+                        key as keyof typeof auctionCheck.result
+                      ]?.text ?? ""}
                     </p>
                   </article>
                 ))}
