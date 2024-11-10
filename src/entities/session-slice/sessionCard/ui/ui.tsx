@@ -40,7 +40,7 @@ export const QuotationSessionCard = ({
                 {auction.auctionId} | {auction.federalLawName}
               </p>
               <div className={styles.errorTags}>
-                {result ? (
+                {result && (
                   Object.keys(result)
                     .filter(
                       (key) =>
@@ -55,9 +55,7 @@ export const QuotationSessionCard = ({
                         }
                       </Tag>
                     ))
-                ) : (
-                  <Tag color="green">Всё хорошо</Tag>
-                )}
+                ) }
               </div>
             </div>
             <div className={styles.main}>
