@@ -7,8 +7,7 @@ import {
 } from "@/shared/interface/auctionCheck";
 import { Button, message, Spin } from "antd";
 import { postSessionsURLToCheck } from "../api";
-import ReactMarkdown from "react-markdown";
-import remarkGfm from "remark-gfm";
+
 export const SessionAnalyticsView = ({
   session,
   style,
