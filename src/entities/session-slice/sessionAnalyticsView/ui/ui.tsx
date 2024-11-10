@@ -36,6 +36,9 @@ export const SessionAnalyticsView = ({
   return (
     <>
       <section style={style} className={styles.analyticsView}>
+        {!isLoading && auctionCheck && (
+          <h4 className={styles.h4}>Найдены следующие ошибки</h4>
+        )}
         {!isLoading && auctionCheck ? (
           <>
             {auctionCheck &&
