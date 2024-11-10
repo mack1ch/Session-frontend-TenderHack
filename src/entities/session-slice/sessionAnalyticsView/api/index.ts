@@ -8,10 +8,7 @@ export const postSessionsURLToCheck = async (
   sessionURL: string
 ): Promise<IAuctionCheck | null> => {
   const handleError = (error: AxiosError<ImageError>) => {
-    message.error(
-      error.response?.data.message ||
-        "Ошибка на сервере, проверьте правильность введенной ссылки"
-    );
+    message.info(error.response?.data.message || "Всё верно");
     return null;
   };
 
