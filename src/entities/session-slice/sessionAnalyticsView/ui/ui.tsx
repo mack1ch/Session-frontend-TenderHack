@@ -7,6 +7,8 @@ import {
 } from "@/shared/interface/auctionCheck";
 import { Button, message, Spin } from "antd";
 import { postSessionsURLToCheck } from "../api";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 export const SessionAnalyticsView = ({
   session,
   style,
@@ -53,6 +55,13 @@ export const SessionAnalyticsView = ({
                         ]
                       }
                     </h4>
+                    <p>
+                      <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                        {auctionCheck.result[
+                          key as keyof typeof auctionCheck.result
+                        ]?.text ?? ""}
+                      </ReactMarkdown>
+                    </p>
                   </article>
                 ))}
           </>
