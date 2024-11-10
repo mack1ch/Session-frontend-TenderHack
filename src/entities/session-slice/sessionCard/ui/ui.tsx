@@ -61,6 +61,7 @@ export const QuotationSessionCard = ({
               <Link
                 style={{ color: isRead ? "#70BDFF" : undefined }}
                 className={styles.sessionName}
+                target="_blank"
                 href={`/session/${auction.auctionId}?activeTabItem=${tabItemID}`}
               >
                 {auction.name.toLowerCase()}
