@@ -1,12 +1,12 @@
 import styles from "./ui.module.scss";
-import { Button, message, Skeleton, Tag, Tooltip } from "antd";
+import { Button, message, Skeleton, Tooltip } from "antd";
 import { IAuctionDetail } from "@/shared/interface/auctionById";
 import Link from "next/link";
 import { CheckCircleOutlined } from "@ant-design/icons";
 import { IHistory } from "@/shared/interface/history";
-
 import { changeSessionUnPublishFilterValue } from "../api";
 import { useEffect, useState } from "react";
+
 export const SessionViewHeader = ({
   session,
   isLoading,
@@ -54,7 +54,6 @@ export const SessionViewHeader = ({
           </>
         ) : (
           <>
-        
             <div className={styles.row}>
               <div className={styles.header}>
                 <Link
