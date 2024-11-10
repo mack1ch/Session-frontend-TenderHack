@@ -40,6 +40,9 @@
           display: flex;
           align-items: center;
           gap: 4px;
+          flex-wrap: wrap;
+          max-width: 100%;
+          overflow: hidden;
         }
       }
       .main {
