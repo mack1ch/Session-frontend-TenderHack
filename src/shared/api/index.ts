@@ -21,7 +21,5 @@ export const instance: AxiosInstance = axios.create({
   baseURL: BASE_URL,
   timeout: 5000,
   withCredentials: true,
-  headers: {
-    "Access-Control-Allow-Credentials": "true",
-  },
+
 });
