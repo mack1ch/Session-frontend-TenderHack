@@ -61,7 +61,7 @@ export const CheckTab = () => {
     setLoading(false);
     setProgress(0);
   };
-  console.log(checkedAuctions);
+
   return (
     <>
       <section className={styles.checkTabWrap}>

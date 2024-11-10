@@ -1,6 +1,6 @@
 import { IAuctionDetail } from "@/shared/interface/auctionById";
 import styles from "./ui.module.scss";
-import { CSSProperties, useEffect, useState } from "react";
+import { CSSProperties, useState } from "react";
 import {
   EAuctionCheckResult,
   IAuctionCheck,
@@ -42,7 +42,7 @@ export const SessionAnalyticsView = ({
                   (key) =>
                     auctionCheck?.result[
                       key as keyof typeof auctionCheck.result
-                    ] === false
+                    ]?.status === false
                 )
                 .map((key, index) => (
                   <article key={index} className={styles.analyticsCard}>

@@ -43,7 +43,8 @@ export const QuotationSessionCard = ({
                 {result &&
                   Object.keys(result)
                     .filter(
-                      (key) => result[key as keyof typeof result] === false
+                      (key) =>
+                        result[key as keyof typeof result]?.status === false
                     )
                     .map((key) => (
                       <Tag color="magenta" key={key}>
