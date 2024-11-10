@@ -7,6 +7,8 @@ export enum EAuctionCheckResult {
   checkContactExistsIfNeed = "Отсутствует обеспечения контракта",
   coincidenceOfSchedulesAndDates = "Графики и даты не совпадают",
   certificatesAndLicenses = "Отсутствует сертификат/лицензия",
+  checkSpecification = "Ошибка в спецификации",
+  checkFiles = "Ошибка в файлах КС",
 }
 
 export interface IAuctionCheckResult {
@@ -22,6 +24,8 @@ export interface IAuctionCheck {
     checkContactExistsIfNeed?: IAuctionCheckResult;
     coincidenceOfSchedulesAndDates?: IAuctionCheckResult;
     certificatesAndLicenses?: IAuctionCheckResult;
+    checkSpecification?: IAuctionCheckResult;
+    checkFiles?: IAuctionCheckResult;
   };
   auction: IAuction;
 }
