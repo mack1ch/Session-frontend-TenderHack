@@ -35,14 +35,22 @@
         .id {
           font-size: 16px;
           font-weight: 500;
+          text-wrap: nowrap;
         }
         .errorTags {
           display: flex;
           align-items: center;
           gap: 4px;
-          flex-wrap: wrap;
+          overflow-x: auto;
           max-width: 100%;
-          overflow: hidden;
+          &::-webkit-scrollbar {
+            height: 2px;
+            width: 24px;
+          }
+          &::-webkit-scrollbar-track-thumb {
+            background-color: #db2b21;
+            opacity: 0.5;
+          }
         }
       }
       .main {
