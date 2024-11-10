@@ -54,13 +54,7 @@ export const SessionViewHeader = ({
           </>
         ) : (
           <>
-            <div className={styles.tagsWrap}>
-              <Tag color="magenta">дублирующая</Tag>{" "}
-              <Tag color="magenta">дублирующая</Tag>{" "}
-              <Tag color="magenta">дублирующая</Tag>{" "}
-              <Tag color="magenta">дублирующая</Tag>{" "}
-              <Tag color="magenta">дублирующая</Tag>
-            </div>
+        
             <div className={styles.row}>
               <div className={styles.header}>
                 <Link
