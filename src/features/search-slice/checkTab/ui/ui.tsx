@@ -107,8 +107,8 @@ export const CheckTab = () => {
             />
           ))}
         </div>
-        <div className={styles.contentWrap}>
-          {!loading && sessionLinks.length === 0 && (
+        {!loading && sessionLinks.length === 0 && (
+          <div className={styles.contentWrap}>
             <div
               style={{
                 width: "100%",
@@ -120,8 +120,8 @@ export const CheckTab = () => {
             >
               <Empty description="Введите ссылку на сессию"></Empty>
             </div>
-          )}
-        </div>
+          </div>
+        )}
       </section>
     </>
   );
