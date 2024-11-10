@@ -5,7 +5,7 @@ import {
   EAuctionCheckResult,
   IAuctionCheck,
 } from "@/shared/interface/auctionCheck";
-import { Spin } from "antd";
+import { Button, message, Spin } from "antd";
 import { postSessionsURLToCheck } from "../api";
 export const SessionAnalyticsView = ({
   session,
@@ -14,24 +14,27 @@ export const SessionAnalyticsView = ({
   session?: IAuctionDetail;
   style?: CSSProperties;
 }) => {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [auctionCheck, setAuctionCheck] = useState<IAuctionCheck>();
-  useEffect(() => {
-    const fetchAuctionCheck = async () => {
-      if (session?.id) {
-        const res = await postSessionsURLToCheck(
-          "https://zakupki.mos.ru/auction/" + session?.id
-        );
-        if (res) {
-          setAuctionCheck(res);
-        }
+
+  const fetchAuctionCheck = async () => {
+    setIsLoading(true);
+    if (session?.id) {
+      message.success("Загрузка началась");
+      const res = await postSessionsURLToCheck(
+        "https://zakupki.mos.ru/auction/" + session?.id
+      );
+      if (res) {
+        setAuctionCheck(res);
       }
-    };
-    fetchAuctionCheck();
-  }, [session]);
+    }
+    setIsLoading(false);
+  };
+
   return (
     <>
       <section style={style} className={styles.analyticsView}>
-        {auctionCheck ? (
+        {!isLoading && auctionCheck ? (
           <>
             {auctionCheck &&
               Object.keys(auctionCheck.result)
@@ -53,10 +56,16 @@ export const SessionAnalyticsView = ({
                   </article>
                 ))}
           </>
-        ) : (
+        ) : isLoading ? (
           <div className={styles.loader}>
             <Spin size="large" />
             <p className={styles.p}>Проверяем...</p>
+          </div>
+        ) : (
+          <div className={styles.loader}>
+            <Button onClick={fetchAuctionCheck} size="large" type="primary">
+              Начать проверку
+            </Button>
           </div>
         )}
       </section>
